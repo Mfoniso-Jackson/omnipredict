@@ -12,6 +12,7 @@ export default function DashboardPage() {
     txlineMockClient.getOddsHistoryForMatch("eng-bra"),
     txlineMockClient.getEventsForMatch("eng-bra")
   );
+  const aiMode = process.env.OPENAI_API_KEY ? "OpenAI enabled" : "Deterministic fallback";
 
   return (
     <div className="space-y-6">
@@ -36,6 +37,7 @@ export default function DashboardPage() {
             Expected value {bestOpportunity ? formatSignedPercent(bestOpportunity.expectedValue) : "0%"} with a Kelly
             allocation of {bestOpportunity ? formatPercent(bestOpportunity.kellyFraction) : "0%"} after risk capping.
           </p>
+          <p className="mt-4 text-xs uppercase tracking-wide text-emerald-300">AI mode: {aiMode}</p>
         </Card>
         <MovementAlert signal={movementSignal} />
       </section>

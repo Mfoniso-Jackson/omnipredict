@@ -4,6 +4,7 @@ import { MovementAlert } from "@/components/market/movement-alert";
 import { OddsHistoryChart } from "@/components/market/odds-history-chart";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { generateMarketInsight } from "@/lib/ai/insights";
 import {
   analyzeOdds,
   detectMovement,
@@ -12,20 +13,19 @@ import {
   formatSignedPercent,
   historyToProbabilitySeries
 } from "@/lib/analytics/market";
-import { getInsightForMatch } from "@/lib/ai/insights";
 import { txlineMockClient } from "@/lib/txline/mockClient";
 
-export default function MatchDetailPage({ params }: { params: { id: string } }) {
+export default async function MatchDetailPage({ params }: { params: { id: string } }) {
   const match = txlineMockClient.getMatch(params.id);
   if (!match) notFound();
 
   const odds = txlineMockClient.getOddsForMatch(match.id);
   const events = txlineMockClient.getEventsForMatch(match.id);
   const history = txlineMockClient.getOddsHistoryForMatch(match.id);
-  const insight = getInsightForMatch(match);
   const bestOpportunity = findBestOpportunity(odds);
   const movementSignal = detectMovement(history, events);
   const probabilitySeries = historyToProbabilitySeries(history);
+  const insight = await generateMarketInsight({ match, odds, events, history });
 
   return (
     <div className="space-y-6">
@@ -85,11 +85,21 @@ export default function MatchDetailPage({ params }: { params: { id: string } }) 
         </Card>
 
         <Card>
-          <CardTitle>AI explanation</CardTitle>
+          <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+            <CardTitle>AI explanation</CardTitle>
+            <Badge tone={insight.mode === "openai" ? "green" : "neutral"}>{insight.mode.toUpperCase()}</Badge>
+          </div>
           <p className="mt-3 text-lg font-semibold text-white">{insight.title}</p>
           <p className="mt-3 text-sm leading-6 text-zinc-300">{insight.summary}</p>
           <p className="mt-5 text-xs uppercase tracking-wide text-zinc-500">Confidence</p>
           <p className="mt-1 font-mono text-3xl font-bold text-emerald-300">{formatPercent(insight.confidence)}</p>
+          <div className="mt-5 grid gap-4">
+            <InsightList title="Drivers" items={insight.drivers} />
+            <InsightList title="Risk notes" items={insight.riskNotes} />
+          </div>
+          <p className="mt-5 rounded-md border border-white/10 bg-white/5 p-3 text-sm leading-6 text-zinc-300">
+            {insight.recommendation}
+          </p>
         </Card>
       </section>
 
@@ -121,6 +131,19 @@ export default function MatchDetailPage({ params }: { params: { id: string } }) 
           ))}
         </div>
       </Card>
+    </div>
+  );
+}
+
+function InsightList({ title, items }: { title: string; items: string[] }) {
+  return (
+    <div>
+      <p className="text-xs uppercase tracking-wide text-zinc-500">{title}</p>
+      <ul className="mt-2 list-disc space-y-1 pl-4 text-sm text-zinc-300">
+        {items.map((item) => (
+          <li key={item}>{item}</li>
+        ))}
+      </ul>
     </div>
   );
 }

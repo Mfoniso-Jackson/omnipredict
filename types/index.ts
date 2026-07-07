@@ -99,10 +99,14 @@ export interface AIInsight {
   id: string;
   matchId: string;
   generatedAt: string;
+  mode: "mock" | "deterministic" | "openai";
   title: string;
   summary: string;
   sentiment: "bullish_home" | "bullish_away" | "balanced" | "volatile";
   confidence: number;
+  drivers: string[];
+  riskNotes: string[];
+  recommendation: string;
 }
 
 export interface SettlementReceipt {

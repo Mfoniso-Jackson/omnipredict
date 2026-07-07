@@ -47,20 +47,28 @@ export const mockInsights: AIInsight[] = [
     matchId: "eng-bra",
     generatedAt: "2026-07-07T21:18:02.000Z",
     title: "England remains slightly underpriced",
+    mode: "mock",
     summary:
       "England's implied probability increased after Brazil's red card. The move is directionally justified, but OmniPredict still sees a modest gap between market price and fair value.",
     sentiment: "bullish_home",
-    confidence: 0.91
+    confidence: 0.91,
+    drivers: ["Brazil red card", "England goal pressure", "Positive expected value gap"],
+    riskNotes: ["Late-match volatility remains high", "Mock data is not a live trading signal"],
+    recommendation: "Monitor the England winner market, but cap sizing with Kelly risk controls."
   },
   {
     id: "insight-arg-fra-44",
     matchId: "arg-fra",
     generatedAt: "2026-07-08T19:44:02.000Z",
     title: "Market is close to efficient",
+    mode: "mock",
     summary:
       "Argentina and France are trading near model fair value. The draw is gaining as the first half closes without a goal.",
     sentiment: "balanced",
-    confidence: 0.76
+    confidence: 0.76,
+    drivers: ["Low-scoring first half", "Balanced xG profile", "Draw probability rising"],
+    riskNotes: ["One goal can quickly reprice all outcomes", "No high-conviction edge detected"],
+    recommendation: "Treat this as a watchlist market rather than a high-priority opportunity."
   }
 ];
 

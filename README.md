@@ -20,7 +20,7 @@ npm run dev
 
 Open `http://127.0.0.1:4173`.
 
-The current milestone adds the analytics engine: implied probabilities, overround normalization, expected value, Kelly sizing, confidence scoring, odds movement detection, and probability history charts on top of the Next.js foundation.
+The current milestone adds the AI intelligence layer: structured deterministic explanations by default, OpenAI-ready generation when `OPENAI_API_KEY` is present, and a typed `/api/insights` route.
 
 ## GitHub Codespaces
 
@@ -77,6 +77,7 @@ Primary switches:
 - `TXLINE_API_BASE`
 - `TXLINE_SSE_URL`
 - `OPENAI_API_KEY`
+- `OPENAI_MODEL`
 - `SOLANA_CLUSTER=devnet`
 
 ## Live TxLINE Upgrade Path
@@ -92,9 +93,21 @@ Replace the mock client in `lib/txline/mockClient.ts` with calls to the official
 
 The mock data mirrors the requested hackathon primitives: World Cup scores, match events, consensus odds, odds movement, red cards, settlement outcomes, and Merkle proof placeholders.
 
-## AI Upgrade Path
+## AI Intelligence Layer
 
-The current AI layer is deterministic and local via `lib/ai/insights.ts`. For a production version, move that module behind a Next.js API route, pass the structured match and odds object to OpenAI, then cache insights by match ID and odds snapshot hash.
+The current AI layer lives in `lib/ai/insights.ts` and `app/api/insights/route.ts`.
+
+- Without `OPENAI_API_KEY`, OmniPredict uses a deterministic fallback.
+- With `OPENAI_API_KEY`, the API route is ready to request structured JSON from OpenAI.
+- The UI surfaces the insight mode, drivers, risk notes, confidence, and recommendation.
+
+Example:
+
+```bash
+curl -X POST http://127.0.0.1:4173/api/insights \
+  -H "Content-Type: application/json" \
+  -d '{"matchId":"eng-bra"}'
+```
 
 ## Milestones
 
@@ -102,13 +115,13 @@ Completed:
 
 1. Foundation: Next.js App Router, TypeScript, Tailwind, shadcn/ui-ready structure, mock TxLINE data, and starter routes.
 2. Analytics depth: Kelly sizing, confidence scoring, movement detection, EV ranking, and probability history charts.
+3. AI intelligence: structured insight generation, deterministic fallback, OpenAI-ready API route, and richer match explanations.
 
 Planned next:
 
-1. AI intelligence: OpenAI-backed explanation route with deterministic fallback.
-2. TxLINE integration: live World Cup REST/SSE client behind environment switches.
-3. Settlement: Solana devnet receipt flow and Anchor integration path.
-4. Polish: responsive QA, accessibility pass, demo video flow, and Vercel deployment.
+1. TxLINE integration: live World Cup REST/SSE client behind environment switches.
+2. Settlement: Solana devnet receipt flow and Anchor integration path.
+3. Polish: responsive QA, accessibility pass, demo video flow, and Vercel deployment.
 
 ## Settlement Upgrade Path
 

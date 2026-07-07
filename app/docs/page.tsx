@@ -3,7 +3,7 @@ import { Card, CardTitle } from "@/components/ui/card";
 const sections = [
   {
     title: "Current milestone",
-    body: "Milestone 2 extends the typed Next.js foundation with a pure analytics engine for implied probability, EV, Kelly sizing, confidence scoring, odds movement detection, and probability history charts."
+    body: "Milestone 3 adds structured AI intelligence: deterministic market explanations by default, OpenAI-ready generation when an API key is present, and a typed /api/insights route."
   },
   {
     title: "Architecture",
@@ -14,8 +14,12 @@ const sections = [
     body: "Mock matches, odds snapshots, and events live in /data. They model score, status, odds, fair probabilities, event hashes, AI insights, positions, and settlement receipts."
   },
   {
+    title: "AI route",
+    body: "POST /api/insights with a matchId to receive a structured AIInsight object containing title, summary, sentiment, confidence, drivers, risk notes, and recommendation."
+  },
+  {
     title: "Next milestones",
-    body: "Next steps are OpenAI-backed explanation routes, live TxLINE REST/SSE integration, persistence, Solana devnet settlement, and a final polish pass for the demo video."
+    body: "Next steps are live TxLINE REST/SSE integration, persistence, Solana devnet settlement, and a final polish pass for the demo video."
   }
 ];
 

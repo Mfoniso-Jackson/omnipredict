@@ -1,6 +1,6 @@
 # OmniPredict Architecture
 
-OmniPredict is designed as a production-quality MVP for the TxODDS World Cup hackathon. The current build includes Milestone 1 foundation work plus Milestone 2 analytics depth: Kelly sizing, confidence scoring, market movement detection, EV ranking, and probability history charts powered by mock TxLINE-style World Cup data.
+OmniPredict is designed as a production-quality MVP for the TxODDS World Cup hackathon. The current build includes Milestone 1 foundation work, Milestone 2 analytics depth, and Milestone 3 AI intelligence with deterministic fallback plus an OpenAI-ready App Router API route.
 
 ## Product Positioning
 
@@ -27,6 +27,7 @@ Analytics Layer
 
 AI Intelligence Layer
   lib/ai/insights.ts
+  app/api/insights/route.ts
 
 Market Data Layer
   lib/txline/mockClient.ts
@@ -70,7 +71,7 @@ Structured explanation modules:
 - Explanation Engine: generates concise natural-language movement summaries.
 - Sentiment Classifier: turns probability gaps into market sentiment.
 
-The current implementation is deterministic for demo reliability. A production version should move this behind an App Router API route and call OpenAI with structured match snapshots.
+The current implementation is deterministic for demo reliability when `OPENAI_API_KEY` is absent. `app/api/insights/route.ts` is OpenAI-ready and returns the same `AIInsight` contract either way.
 
 ### TxLINE Adapter
 
@@ -126,11 +127,10 @@ Recommended TypeScript settings:
 
 1. Foundation: project shell, repo, docs, scripts, mock data, and starter routes.
 2. Analytics Engine: pure calculations, Kelly sizing, confidence scoring, movement detection, and charts.
-3. Dashboard: live match cards, probability bars, EV, sentiment, confidence.
-4. AI Insights: structured explanation modules, then OpenAI API route.
-5. TxLINE Integration: live REST/SSE adapter behind environment switches.
-6. Settlement: mocked receipt, then Anchor devnet program and TxLINE `validate_stat` CPI.
-7. Polish: accessibility, responsive QA, demo video script, Vercel deployment.
+3. AI Insights: structured explanation modules, deterministic fallback, OpenAI-ready API route.
+4. TxLINE Integration: live REST/SSE adapter behind environment switches.
+5. Settlement: mocked receipt, then Anchor devnet program and TxLINE `validate_stat` CPI.
+6. Polish: accessibility, responsive QA, demo video script, Vercel deployment.
 
 ## Route Structure
 

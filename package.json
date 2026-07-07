@@ -10,8 +10,8 @@
     "build": "next build",
     "start": "next start --port 4173",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit",
-    "check": "next lint && tsc --noEmit"
+    "typecheck": "next build",
+    "check": "next lint && next build"
   },
   "dependencies": {
     "clsx": "^2.1.1",
