@@ -50,6 +50,29 @@ export interface OddsSnapshot {
   confidence: number;
 }
 
+export interface OddsHistoryPoint {
+  id: string;
+  matchId: string;
+  marketId: string;
+  outcome: string;
+  minute: number;
+  capturedAt: string;
+  odds: number;
+  modelProbability: number;
+}
+
+export interface MarketMovementSignal {
+  matchId: string;
+  marketId: string;
+  outcome: string;
+  previousOdds: number;
+  currentOdds: number;
+  deltaPercent: number;
+  direction: "shortened" | "drifted" | "flat";
+  explained: boolean;
+  label: string;
+}
+
 export interface MatchEvent {
   id: string;
   matchId: string;

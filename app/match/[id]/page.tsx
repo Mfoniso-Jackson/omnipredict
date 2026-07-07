@@ -1,7 +1,17 @@
 import { notFound } from "next/navigation";
+import { KellyPanel } from "@/components/market/kelly-panel";
+import { MovementAlert } from "@/components/market/movement-alert";
+import { OddsHistoryChart } from "@/components/market/odds-history-chart";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
-import { analyzeOdds, formatPercent, formatSignedPercent } from "@/lib/analytics/market";
+import {
+  analyzeOdds,
+  detectMovement,
+  findBestOpportunity,
+  formatPercent,
+  formatSignedPercent,
+  historyToProbabilitySeries
+} from "@/lib/analytics/market";
 import { getInsightForMatch } from "@/lib/ai/insights";
 import { txlineMockClient } from "@/lib/txline/mockClient";
 
@@ -11,7 +21,11 @@ export default function MatchDetailPage({ params }: { params: { id: string } }) 
 
   const odds = txlineMockClient.getOddsForMatch(match.id);
   const events = txlineMockClient.getEventsForMatch(match.id);
+  const history = txlineMockClient.getOddsHistoryForMatch(match.id);
   const insight = getInsightForMatch(match);
+  const bestOpportunity = findBestOpportunity(odds);
+  const movementSignal = detectMovement(history, events);
+  const probabilitySeries = historyToProbabilitySeries(history);
 
   return (
     <div className="space-y-6">
@@ -42,8 +56,10 @@ export default function MatchDetailPage({ params }: { params: { id: string } }) 
                   <th className="pb-3">Outcome</th>
                   <th className="pb-3">Odds</th>
                   <th className="pb-3">Market prob</th>
-                  <th className="pb-3">Model prob</th>
-                  <th className="pb-3">EV</th>
+                      <th className="pb-3">Model prob</th>
+                      <th className="pb-3">EV</th>
+                      <th className="pb-3">Kelly</th>
+                      <th className="pb-3">Confidence</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/10">
@@ -58,6 +74,8 @@ export default function MatchDetailPage({ params }: { params: { id: string } }) 
                       <td className={`py-3 font-mono ${row.expectedValue > 0 ? "text-emerald-300" : "text-red-300"}`}>
                         {formatSignedPercent(row.expectedValue)}
                       </td>
+                      <td className="py-3 font-mono text-emerald-300">{formatPercent(row.kellyFraction)}</td>
+                      <td className="py-3 font-mono">{formatPercent(row.confidenceScore)}</td>
                     </tr>
                   ))
                 )}
@@ -74,6 +92,19 @@ export default function MatchDetailPage({ params }: { params: { id: string } }) 
           <p className="mt-1 font-mono text-3xl font-bold text-emerald-300">{formatPercent(insight.confidence)}</p>
         </Card>
       </section>
+
+      <section className="grid gap-4 xl:grid-cols-[1.2fr_0.8fr]">
+        <Card>
+          <CardHeader>
+            <CardTitle>Probability history</CardTitle>
+            <Badge tone="blue">Market vs model</Badge>
+          </CardHeader>
+          <OddsHistoryChart series={probabilitySeries} />
+        </Card>
+        <KellyPanel opportunity={bestOpportunity} />
+      </section>
+
+      <MovementAlert signal={movementSignal} />
 
       <Card>
         <CardTitle>TxLINE event timeline</CardTitle>

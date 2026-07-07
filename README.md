@@ -20,7 +20,7 @@ npm run dev
 
 Open `http://127.0.0.1:4173`.
 
-This milestone is a Next.js App Router application using TypeScript, Tailwind CSS, ESLint, and a shadcn/ui-ready project structure.
+The current milestone adds the analytics engine: implied probabilities, overround normalization, expected value, Kelly sizing, confidence scoring, odds movement detection, and probability history charts on top of the Next.js foundation.
 
 ## GitHub Codespaces
 
@@ -50,7 +50,7 @@ npm run check      # typecheck + lint
 ```text
 app/                            App Router pages and layout
 components/                     Reusable UI and market components
-lib/analytics/                  Probability, EV, and odds logic
+lib/analytics/                  Probability, EV, Kelly, confidence, and odds movement logic
 lib/ai/                         Structured mock insight helpers
 lib/txline/                     Mock TxLINE client boundary
 lib/portfolio/                  Portfolio exposure and return logic
@@ -96,13 +96,19 @@ The mock data mirrors the requested hackathon primitives: World Cup scores, matc
 
 The current AI layer is deterministic and local via `lib/ai/insights.ts`. For a production version, move that module behind a Next.js API route, pass the structured match and odds object to OpenAI, then cache insights by match ID and odds snapshot hash.
 
-## Planned Next Milestones
+## Milestones
 
-1. Analytics depth: Kelly sizing, confidence scoring, movement detection, and charts.
-2. AI intelligence: OpenAI-backed explanation route with deterministic fallback.
-3. TxLINE integration: live World Cup REST/SSE client behind environment switches.
-4. Settlement: Solana devnet receipt flow and Anchor integration path.
-5. Polish: responsive QA, accessibility pass, demo video flow, and Vercel deployment.
+Completed:
+
+1. Foundation: Next.js App Router, TypeScript, Tailwind, shadcn/ui-ready structure, mock TxLINE data, and starter routes.
+2. Analytics depth: Kelly sizing, confidence scoring, movement detection, EV ranking, and probability history charts.
+
+Planned next:
+
+1. AI intelligence: OpenAI-backed explanation route with deterministic fallback.
+2. TxLINE integration: live World Cup REST/SSE client behind environment switches.
+3. Settlement: Solana devnet receipt flow and Anchor integration path.
+4. Polish: responsive QA, accessibility pass, demo video flow, and Vercel deployment.
 
 ## Settlement Upgrade Path
 

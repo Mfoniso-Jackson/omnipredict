@@ -1,6 +1,6 @@
 # OmniPredict Architecture
 
-OmniPredict is designed as a production-quality MVP for the TxODDS World Cup hackathon. The current build is Milestone 1: a Next.js App Router, TypeScript, Tailwind CSS, ESLint, and shadcn/ui-ready foundation powered by mock TxLINE-style World Cup data.
+OmniPredict is designed as a production-quality MVP for the TxODDS World Cup hackathon. The current build includes Milestone 1 foundation work plus Milestone 2 analytics depth: Kelly sizing, confidence scoring, market movement detection, EV ranking, and probability history charts powered by mock TxLINE-style World Cup data.
 
 ## Product Positioning
 
@@ -59,6 +59,8 @@ Pure, independently testable calculations:
 - Kelly Criterion with risk cap
 - odds movement severity
 - market inefficiency ranking
+- confidence scoring
+- probability history series
 
 ### AI Intelligence
 
@@ -122,8 +124,8 @@ Recommended TypeScript settings:
 
 ## Milestones
 
-1. Foundation: project shell, repo, docs, scripts, mock data, tests.
-2. Analytics Engine: pure calculations and unit tests.
+1. Foundation: project shell, repo, docs, scripts, mock data, and starter routes.
+2. Analytics Engine: pure calculations, Kelly sizing, confidence scoring, movement detection, and charts.
 3. Dashboard: live match cards, probability bars, EV, sentiment, confidence.
 4. AI Insights: structured explanation modules, then OpenAI API route.
 5. TxLINE Integration: live REST/SSE adapter behind environment switches.

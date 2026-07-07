@@ -52,6 +52,10 @@ export function MatchCard({ match, odds }: MatchCardProps) {
               tone={(bestEdge?.expectedValue ?? 0) > 0 ? "text-emerald-300" : "text-red-300"}
             />
           </div>
+          <div className="grid grid-cols-2 gap-3 text-sm">
+            <Metric label="Confidence" value={bestEdge ? formatPercent(bestEdge.confidenceScore) : "0%"} />
+            <Metric label="Kelly cap" value={bestEdge ? formatPercent(bestEdge.kellyFraction) : "0%"} tone="text-emerald-300" />
+          </div>
         </div>
       ) : null}
 

@@ -3,7 +3,7 @@ import { Card, CardTitle } from "@/components/ui/card";
 const sections = [
   {
     title: "Current milestone",
-    body: "Milestone 1 creates a typed Next.js App Router foundation using mock TxLINE-style World Cup data only. Live TxLINE integration is intentionally out of scope for this step."
+    body: "Milestone 2 extends the typed Next.js foundation with a pure analytics engine for implied probability, EV, Kelly sizing, confidence scoring, odds movement detection, and probability history charts."
   },
   {
     title: "Architecture",
@@ -15,7 +15,7 @@ const sections = [
   },
   {
     title: "Next milestones",
-    body: "Next steps are analytics depth, richer charts, OpenAI-backed explanation routes, live TxLINE REST/SSE integration, persistence, and Solana devnet settlement."
+    body: "Next steps are OpenAI-backed explanation routes, live TxLINE REST/SSE integration, persistence, Solana devnet settlement, and a final polish pass for the demo video."
   }
 ];
 
