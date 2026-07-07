@@ -9,6 +9,7 @@ These notes align OmniPredict with the TxODDS World Cup TxLINE Prediction Market
 - Submission deadline: July 19, 2026 at 23:59 UTC.
 - Winner announcement: July 29, 2026 at 15:00 UTC.
 - Required artifacts: demo video up to five minutes, public GitHub repo, working deployed app or functional API/devnet endpoint, brief technical documentation, and TxLINE API feedback.
+- Submission support files: `DEMO.md`, `DEPLOYMENT.md`, `ARCHITECTURE.md`, and this `SUBMISSION.md`.
 
 ## Core Interpretation
 
@@ -31,6 +32,14 @@ The app includes a `MockTxlineAdapter` that mirrors a live TxLINE SSE/World Cup 
 - `TXLINE_LIVE=false`
 - `TXLINE_API_BASE`
 - `TXLINE_SSE_URL`
+
+Readiness checks:
+
+```bash
+curl /api/health
+curl /api/txline/status
+curl /api/settlement
+```
 
 ### User Experience and Use Case
 
@@ -95,6 +104,8 @@ Important constraint: OmniPredict does not use the internal TxLINE credit token 
 5. Portfolio: show simulated exposure, expected return, downside, and P/L.
 6. Settlement: show TxLINE proof hash, verified outcome, market ID, payout math, receipt account, and simulated Solana devnet signature.
 7. Technical close: explain mock-to-live TxLINE adapter and Anchor settlement upgrade path.
+
+See `DEMO.md` for the timed walkthrough and copy-paste API smoke tests.
 
 ## Feedback for Submission Form
 

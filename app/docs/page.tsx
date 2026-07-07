@@ -3,7 +3,7 @@ import { Card, CardTitle } from "@/components/ui/card";
 const sections = [
   {
     title: "Current milestone",
-    body: "Milestone 5 adds the settlement engine: TxLINE proof request payloads, deterministic devnet-ready receipt simulation, payout math, account metadata, and a typed /api/settlement route."
+    body: "Milestone 6 makes OmniPredict submission-ready: demo runbook, deployment guide, health endpoint, polished docs, and stable judge-facing API checks."
   },
   {
     title: "Architecture",
@@ -26,10 +26,32 @@ const sections = [
     body: "GET /api/settlement returns the default simulated settlement. POST /api/settlement with matchId, outcome, proofHash, stake, odds, and asset to receive a devnet-ready receipt."
   },
   {
-    title: "Next milestones",
-    body: "Next steps are an Anchor workspace, on-chain tests, real validate_stat CPI wiring, responsive QA, demo video flow, and Vercel deployment."
+    title: "Submission assets",
+    body: "README, ARCHITECTURE, SUBMISSION, DEMO, DEPLOYMENT, Codespaces config, API routes, and the Anchor-shaped settlement stub are included in the public repo."
+  },
+  {
+    title: "Next milestone",
+    body: "Next technical step is a real Anchor workspace with devnet deployment and tests for valid, invalid, duplicate, and losing settlements."
   }
 ];
+
+const endpointExamples = [
+  { label: "Health", command: "curl http://127.0.0.1:4173/api/health" },
+  { label: "TxLINE status", command: "curl http://127.0.0.1:4173/api/txline/status" },
+  { label: "TxLINE stream", command: "curl -N http://127.0.0.1:4173/api/txline/stream" },
+  {
+    label: "AI insight",
+    command:
+      "curl -X POST http://127.0.0.1:4173/api/insights -H \"Content-Type: application/json\" -d '{\"matchId\":\"eng-bra\"}'"
+  },
+  {
+    label: "Settlement",
+    command:
+      "curl -X POST http://127.0.0.1:4173/api/settlement -H \"Content-Type: application/json\" -d '{\"matchId\":\"eng-bra\",\"outcome\":\"England win\",\"proofHash\":\"0x8d4a7e0cb782c14f19a5e3bcd91fae72942d7b32\",\"stake\":250,\"odds\":1.75,\"asset\":\"USDC\"}'"
+  }
+];
+
+const demoFlow = ["Overview", "Dashboard", "Match Intel", "Portfolio", "Settlement", "Docs"];
 
 export default function DocsPage() {
   return (
@@ -48,6 +70,32 @@ export default function DocsPage() {
             <p className="mt-3 text-sm leading-6 text-zinc-300">{section.body}</p>
           </Card>
         ))}
+      </section>
+      <section className="grid gap-4 xl:grid-cols-[0.75fr_1.25fr]">
+        <Card>
+          <CardTitle>Demo flow</CardTitle>
+          <div className="mt-5 grid gap-3">
+            {demoFlow.map((step, index) => (
+              <div className="flex items-center gap-3" key={step}>
+                <span className="grid h-8 w-8 shrink-0 place-items-center rounded-md bg-emerald-400 font-mono text-sm font-bold text-zinc-950">
+                  {index + 1}
+                </span>
+                <span className="text-sm font-medium text-white">{step}</span>
+              </div>
+            ))}
+          </div>
+        </Card>
+        <Card>
+          <CardTitle>API smoke tests</CardTitle>
+          <div className="mt-5 grid gap-3">
+            {endpointExamples.map((example) => (
+              <div className="rounded-md border border-white/10 bg-black/30 p-3" key={example.label}>
+                <p className="text-xs uppercase tracking-wide text-emerald-300">{example.label}</p>
+                <code className="mt-2 block break-words text-xs leading-5 text-zinc-300">{example.command}</code>
+              </div>
+            ))}
+          </div>
+        </Card>
       </section>
     </div>
   );

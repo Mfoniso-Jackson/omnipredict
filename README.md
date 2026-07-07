@@ -9,7 +9,7 @@ Built for the TxODDS World Cup TxLINE Prediction Markets and Settlement track on
 - Submission deadline: July 19, 2026 at 23:59 UTC.
 - Winner announcement: July 29, 2026 at 15:00 UTC.
 - Required submission assets: demo video, public repo, working deployed app or endpoint, technical documentation, and TxLINE API feedback.
-- See `SUBMISSION.md` for judging criteria alignment and the demo video outline.
+- See `SUBMISSION.md` and `DEMO.md` for judging criteria alignment and the demo video outline.
 
 ## Quick Start
 
@@ -20,7 +20,13 @@ npm run dev
 
 Open `http://127.0.0.1:4173`.
 
-The current milestone adds the settlement engine: TxLINE proof request payloads, deterministic devnet-ready receipt simulation, payout math, account metadata, and a typed `/api/settlement` route.
+The current milestone makes OmniPredict submission-ready: demo runbook, deployment guide, health endpoint, polished docs, and stable judge-facing API checks.
+
+Submission helpers:
+
+- `DEMO.md` for the five-minute walkthrough.
+- `DEPLOYMENT.md` for Vercel and post-deploy checks.
+- `/api/health` for one-command runtime verification.
 
 ## GitHub Codespaces
 
@@ -58,6 +64,8 @@ lib/settlement/                 Settlement receipt helpers and devnet-ready simu
 types/                          Shared TypeScript domain types
 data/                           Mock TxLINE-style World Cup fixtures
 contracts/                      Solana/Anchor settlement integration boundary
+DEMO.md                         Five-minute demo runbook and API smoke tests
+DEPLOYMENT.md                   Vercel and post-deploy verification guide
 ```
 
 See `ARCHITECTURE.md` for the layered system design, module ownership, and milestone plan.
@@ -107,6 +115,7 @@ The mock data mirrors the requested hackathon primitives: World Cup scores, matc
 Inspection endpoints:
 
 ```bash
+curl http://127.0.0.1:4173/api/health
 curl http://127.0.0.1:4173/api/txline/status
 curl -N http://127.0.0.1:4173/api/txline/stream
 ```
@@ -150,11 +159,12 @@ Completed:
 3. AI intelligence: structured insight generation, deterministic fallback, OpenAI-ready API route, and richer match explanations.
 4. TxLINE integration: adapter contract, mock/live selection, REST normalization, fallback behavior, status endpoint, and SSE snapshot endpoint.
 5. Settlement: proof request payloads, deterministic devnet-ready receipt simulation, payout math, settlement API route, and Anchor CPI documentation.
+6. Submission readiness: demo runbook, deployment guide, health endpoint, in-app API docs, and production verification checks.
 
 Planned next:
 
 1. Anchor workspace: compile the settlement program and add program tests.
-2. Polish: responsive QA, accessibility pass, demo video flow, and Vercel deployment.
+2. Live integration hardening: validate official TxLINE payloads, deploy, and record the final demo.
 
 ## Settlement Upgrade Path
 

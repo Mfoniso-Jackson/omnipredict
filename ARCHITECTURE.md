@@ -1,6 +1,6 @@
 # OmniPredict Architecture
 
-OmniPredict is designed as a production-quality MVP for the TxODDS World Cup hackathon. The current build includes Milestone 1 foundation work, Milestone 2 analytics depth, Milestone 3 AI intelligence, Milestone 4 TxLINE adapter integration, and Milestone 5 settlement simulation.
+OmniPredict is designed as a production-quality MVP for the TxODDS World Cup hackathon. The current build includes Milestone 1 foundation work, Milestone 2 analytics depth, Milestone 3 AI intelligence, Milestone 4 TxLINE adapter integration, Milestone 5 settlement simulation, and Milestone 6 submission readiness.
 
 ## Product Positioning
 
@@ -21,6 +21,7 @@ Presentation Layer
 
 Business Logic Layer
   route composition and view orchestration
+  app/api/health/route.ts
 
 Analytics Layer
   lib/analytics/market.ts
@@ -137,8 +138,9 @@ Recommended TypeScript settings:
 3. AI Insights: structured explanation modules, deterministic fallback, OpenAI-ready API route.
 4. TxLINE Integration: live REST/SSE adapter behind environment switches.
 5. Settlement: proof request payloads, deterministic devnet-ready receipts, payout math, API route, and Anchor CPI documentation.
-6. Anchor Implementation: compile the devnet program and add tests for valid, invalid, duplicate, and losing settlements.
-7. Polish: accessibility, responsive QA, demo video script, Vercel deployment.
+6. Submission Readiness: demo runbook, deployment guide, health endpoint, in-app API docs, and production verification checks.
+7. Anchor Implementation: compile the devnet program and add tests for valid, invalid, duplicate, and losing settlements.
+8. Live Hardening: validate official TxLINE payloads, deploy, and record the final demo.
 
 ## Route Structure
 
@@ -152,6 +154,7 @@ app/
   portfolio/page.tsx
   settlement/page.tsx
   docs/page.tsx
+  api/health/route.ts
   api/insights/route.ts
   api/settlement/route.ts
   api/txline/status/route.ts
