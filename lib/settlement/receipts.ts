@@ -9,6 +9,8 @@ export function createPendingReceipt(match: Match): SettlementReceipt {
     proofHash: match.proofHash ?? "pending-proof",
     status: "pending",
     validationPath: ["TxLINE proof", "validate_stat CPI", "settlement program", "payout"],
-    settledAsset: "SIMULATED"
+    settledAsset: "SIMULATED",
+    mode: "simulated",
+    cluster: "devnet"
   };
 }

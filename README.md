@@ -20,7 +20,7 @@ npm run dev
 
 Open `http://127.0.0.1:4173`.
 
-The current milestone adds the TxLINE integration boundary: mock-by-default adapter data, live REST normalization when configured, fallback behavior, status inspection, and an SSE-compatible snapshot route.
+The current milestone adds the settlement engine: TxLINE proof request payloads, deterministic devnet-ready receipt simulation, payout math, account metadata, and a typed `/api/settlement` route.
 
 ## GitHub Codespaces
 
@@ -54,7 +54,7 @@ lib/analytics/                  Probability, EV, Kelly, confidence, and odds mov
 lib/ai/                         Structured mock insight helpers
 lib/txline/                     TxLINE adapter, mock client, live REST client, and status types
 lib/portfolio/                  Portfolio exposure and return logic
-lib/settlement/                 Settlement receipt helpers
+lib/settlement/                 Settlement receipt helpers and devnet-ready simulation engine
 types/                          Shared TypeScript domain types
 data/                           Mock TxLINE-style World Cup fixtures
 contracts/                      Solana/Anchor settlement integration boundary
@@ -80,6 +80,9 @@ Primary switches:
 - `OPENAI_API_KEY`
 - `OPENAI_MODEL`
 - `SOLANA_CLUSTER=devnet`
+- `SETTLEMENT_PROGRAM_ID`
+- `TXLINE_ORACLE_ACCOUNT`
+- `SETTLEMENT_ESCROW_VAULT`
 
 ## TxLINE Adapter
 
@@ -124,6 +127,20 @@ curl -X POST http://127.0.0.1:4173/api/insights \
   -d '{"matchId":"eng-bra"}'
 ```
 
+## Settlement Engine
+
+Milestone 5 adds a functional settlement API and page flow without requiring a local Solana toolchain. The simulation creates the same receipt metadata the Anchor program should emit later: proof hash, validated outcome, payout amount, receipt account, keeper authority, TxLINE oracle account, escrow vault, transaction signature, and explorer URL.
+
+Examples:
+
+```bash
+curl http://127.0.0.1:4173/api/settlement
+
+curl -X POST http://127.0.0.1:4173/api/settlement \
+  -H "Content-Type: application/json" \
+  -d '{"matchId":"eng-bra","outcome":"England win","proofHash":"0x8d4a7e0cb782c14f19a5e3bcd91fae72942d7b32","stake":250,"odds":1.75,"asset":"USDC"}'
+```
+
 ## Milestones
 
 Completed:
@@ -132,14 +149,15 @@ Completed:
 2. Analytics depth: Kelly sizing, confidence scoring, movement detection, EV ranking, and probability history charts.
 3. AI intelligence: structured insight generation, deterministic fallback, OpenAI-ready API route, and richer match explanations.
 4. TxLINE integration: adapter contract, mock/live selection, REST normalization, fallback behavior, status endpoint, and SSE snapshot endpoint.
+5. Settlement: proof request payloads, deterministic devnet-ready receipt simulation, payout math, settlement API route, and Anchor CPI documentation.
 
 Planned next:
 
-1. Settlement: Solana devnet receipt flow and Anchor integration path.
+1. Anchor workspace: compile the settlement program and add program tests.
 2. Polish: responsive QA, accessibility pass, demo video flow, and Vercel deployment.
 
 ## Settlement Upgrade Path
 
-The frontend settlement page displays a simulated receipt. `contracts/anchor-stub/settlement-program.rs` shows the intended Anchor program shape for devnet integration.
+The frontend settlement page displays a devnet-ready simulated receipt. `contracts/anchor-stub/settlement-program.rs` shows the intended Anchor program shape for devnet integration.
 
 The intended production path is to CPI into TxLINE's `validate_stat` instruction, verify the submitted proof, mark the prediction market outcome, and release supported escrow assets such as USDC. OmniPredict does not use the internal TxLINE credit token for peer-to-peer transfers.

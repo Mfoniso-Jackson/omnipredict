@@ -6,6 +6,8 @@ export type MatchEventType = "goal" | "red_card" | "yellow_card" | "substitution
 
 export type SettlementStatus = "pending" | "verified" | "paid";
 
+export type SettlementMode = "simulated" | "devnet-ready";
+
 export interface Team {
   id: string;
   name: string;
@@ -118,5 +120,39 @@ export interface SettlementReceipt {
   status: SettlementStatus;
   validationPath: string[];
   settledAsset: "USDC" | "SOL" | "SIMULATED";
+  mode?: SettlementMode;
+  payoutAmount?: number;
+  stake?: number;
+  odds?: number;
+  txSignature?: string;
+  settledAt?: string;
+  verifier?: string;
+  cluster?: "devnet" | "testnet" | "mainnet-beta";
   explorerUrl?: string;
+}
+
+export interface SettlementProofRequest {
+  matchId: string;
+  marketId: string;
+  outcome: string;
+  proofHash: string;
+  stake: number;
+  odds: number;
+  asset: "USDC" | "SOL";
+  walletAddress?: string;
+}
+
+export interface SettlementSimulation {
+  request: SettlementProofRequest;
+  receipt: SettlementReceipt;
+  proofValid: boolean;
+  payoutAmount: number;
+  programId: string;
+  cluster: "devnet" | "testnet" | "mainnet-beta";
+  accounts: {
+    receipt: string;
+    authority: string;
+    txlineOracle: string;
+    escrowVault: string;
+  };
 }

@@ -74,7 +74,7 @@ References from the bounty:
 
 ## Settlement Plan
 
-The bounty encourages custom on-chain settlement engines that use TxLINE proofs. OmniPredict includes a mocked settlement receipt and an Anchor-shaped stub under `contracts/anchor-stub/settlement-program.rs`.
+The bounty encourages custom on-chain settlement engines that use TxLINE proofs. OmniPredict includes a devnet-ready settlement simulation at `/api/settlement` and an Anchor-shaped stub under `contracts/anchor-stub/settlement-program.rs`.
 
 Intended production settlement:
 
@@ -93,7 +93,7 @@ Important constraint: OmniPredict does not use the internal TxLINE credit token 
 3. Match page: show event timeline, probability chart, AI explanation feed, EV table, and Kelly sizing.
 4. Sharp movement detector: show unexplained market movement when odds move without a visible match event.
 5. Portfolio: show simulated exposure, expected return, downside, and P/L.
-6. Settlement: show TxLINE proof hash, verified outcome, market ID, and simulated Solana devnet payout.
+6. Settlement: show TxLINE proof hash, verified outcome, market ID, payout math, receipt account, and simulated Solana devnet signature.
 7. Technical close: explain mock-to-live TxLINE adapter and Anchor settlement upgrade path.
 
 ## Feedback for Submission Form
@@ -102,9 +102,9 @@ What worked well:
 
 - A single normalized JSON schema makes it straightforward to model dashboards, market analytics, and settlement receipts.
 - SSE-style updates are a strong fit for live odds movement and probability dashboards.
-- Solana-anchored proof receipts give the product a clear trust story.
+- Solana-anchored proof receipts and the `/api/settlement` payload give the product a clear trust story.
 
 Potential friction:
 
 - Since submissions close before or around the final live review window, demo data and replay tooling are important for judges.
-- Endpoint examples for settlement proof payloads and `validate_stat` CPI accounts would make on-chain integration faster.
+- Official endpoint examples for settlement proof payloads and `validate_stat` CPI accounts would make on-chain integration faster.

@@ -105,6 +105,14 @@ export const mockSettlementReceipts: SettlementReceipt[] = [
     status: "verified",
     validationPath: ["TxLINE proof", "validate_stat CPI", "settlement program", "USDC payout"],
     settledAsset: "USDC",
-    explorerUrl: "https://explorer.solana.com/?cluster=devnet"
+    mode: "devnet-ready",
+    stake: 250,
+    odds: 1.75,
+    payoutAmount: 437.5,
+    txSignature: "e4d98a7a43f89ef782a9c77a43c50a6d8f2526755887de1f121c8f797f3b8e16",
+    settledAt: "2026-07-07T21:22:00.000Z",
+    verifier: "OmniPredictKeeper111111111111111111111111111",
+    cluster: "devnet",
+    explorerUrl: "https://explorer.solana.com/tx/e4d98a7a43f89ef782a9c77a43c50a6d8f2526755887de1f121c8f797f3b8e16?cluster=devnet"
   }
 ];

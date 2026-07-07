@@ -1,7 +1,7 @@
-import type { Match, MatchEvent, Market, OddsHistoryPoint, OddsSnapshot } from "@/types";
+import type { Match, MatchEvent, Market, OddsHistoryPoint, OddsSnapshot, SettlementReceipt } from "@/types";
 import type { TxlineAdapterStatus, TxlineClient } from "@/lib/txline/types";
 
-type LivePayload<T> = T | { data?: T; matches?: T; markets?: T; odds?: T; events?: T; history?: T };
+type LivePayload<T> = T | { data?: T; matches?: T; markets?: T; odds?: T; events?: T; history?: T; receipts?: T };
 
 interface LiveTeamPayload {
   id?: string;
@@ -85,6 +85,35 @@ interface LiveHistoryPayload {
   model_probability?: number;
 }
 
+interface LiveSettlementReceiptPayload {
+  id?: string;
+  matchId?: string;
+  match_id?: string;
+  marketId?: string;
+  market_id?: string;
+  verifiedOutcome?: string;
+  verified_outcome?: string;
+  proofHash?: string;
+  proof_hash?: string;
+  status?: SettlementReceipt["status"];
+  validationPath?: string[];
+  validation_path?: string[];
+  settledAsset?: SettlementReceipt["settledAsset"];
+  settled_asset?: SettlementReceipt["settledAsset"];
+  payoutAmount?: number;
+  payout_amount?: number;
+  stake?: number;
+  odds?: number;
+  txSignature?: string;
+  tx_signature?: string;
+  settledAt?: string;
+  settled_at?: string;
+  verifier?: string;
+  cluster?: SettlementReceipt["cluster"];
+  explorerUrl?: string;
+  explorer_url?: string;
+}
+
 export class TxlineLiveClient implements TxlineClient {
   constructor(
     private readonly apiBase: string,
@@ -137,7 +166,8 @@ export class TxlineLiveClient implements TxlineClient {
   }
 
   async getSettlementReceipts() {
-    return [];
+    const payload = await this.fetchJson<LivePayload<LiveSettlementReceiptPayload[]>>("/world-cup/settlement/receipts");
+    return unwrapArray(payload, "receipts").map(normalizeSettlementReceipt);
   }
 
   private async fetchJson<T>(path: string): Promise<T> {
@@ -159,7 +189,7 @@ export class TxlineLiveClient implements TxlineClient {
   }
 }
 
-function unwrapArray<T>(payload: LivePayload<T[]>, key: "matches" | "markets" | "odds" | "events" | "history") {
+function unwrapArray<T>(payload: LivePayload<T[]>, key: "matches" | "markets" | "odds" | "events" | "history" | "receipts") {
   if (Array.isArray(payload)) return payload;
   const keyed = payload[key];
   if (Array.isArray(keyed)) return keyed;
@@ -253,5 +283,30 @@ function normalizeHistory(point: LiveHistoryPayload, matchId: string): OddsHisto
     capturedAt: point.capturedAt ?? point.captured_at ?? new Date().toISOString(),
     odds: point.odds ?? 1,
     modelProbability: point.modelProbability ?? point.model_probability ?? 0.5
+  };
+}
+
+function normalizeSettlementReceipt(receipt: LiveSettlementReceiptPayload): SettlementReceipt {
+  const matchId = receipt.matchId ?? receipt.match_id ?? "unknown-match";
+  const marketId = receipt.marketId ?? receipt.market_id ?? `${matchId}-winner`;
+
+  return {
+    id: receipt.id ?? `receipt-${matchId}`,
+    matchId,
+    marketId,
+    verifiedOutcome: receipt.verifiedOutcome ?? receipt.verified_outcome ?? "Pending outcome",
+    proofHash: receipt.proofHash ?? receipt.proof_hash ?? "pending-proof",
+    status: receipt.status ?? "pending",
+    validationPath: receipt.validationPath ?? receipt.validation_path ?? ["TxLINE proof", "validate_stat CPI", "settlement program"],
+    settledAsset: receipt.settledAsset ?? receipt.settled_asset ?? "SIMULATED",
+    mode: "devnet-ready",
+    payoutAmount: receipt.payoutAmount ?? receipt.payout_amount,
+    stake: receipt.stake,
+    odds: receipt.odds,
+    txSignature: receipt.txSignature ?? receipt.tx_signature,
+    settledAt: receipt.settledAt ?? receipt.settled_at,
+    verifier: receipt.verifier,
+    cluster: receipt.cluster,
+    explorerUrl: receipt.explorerUrl ?? receipt.explorer_url
   };
 }

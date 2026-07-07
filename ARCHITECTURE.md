@@ -1,6 +1,6 @@
 # OmniPredict Architecture
 
-OmniPredict is designed as a production-quality MVP for the TxODDS World Cup hackathon. The current build includes Milestone 1 foundation work, Milestone 2 analytics depth, Milestone 3 AI intelligence, and Milestone 4 TxLINE adapter integration.
+OmniPredict is designed as a production-quality MVP for the TxODDS World Cup hackathon. The current build includes Milestone 1 foundation work, Milestone 2 analytics depth, Milestone 3 AI intelligence, Milestone 4 TxLINE adapter integration, and Milestone 5 settlement simulation.
 
 ## Product Positioning
 
@@ -44,6 +44,8 @@ Portfolio Layer
 
 Settlement Layer
   lib/settlement/receipts.ts
+  lib/settlement/engine.ts
+  app/api/settlement/route.ts
   contracts/anchor-stub/settlement-program.rs
 
 Domain Contracts
@@ -109,7 +111,7 @@ The settlement pipeline is:
 Prediction -> Collateral -> TxLINE Validation -> Settlement -> Receipt
 ```
 
-The MVP shows a simulated receipt. The Anchor path should CPI into TxLINE's `validate_stat` instruction, verify the proof, and release supported escrow assets such as USDC. The internal TxLINE credit token must not be used for peer-to-peer transfers.
+The MVP shows a devnet-ready simulated receipt and exposes `/api/settlement` for GET/POST proof settlement payloads. The Anchor path should CPI into TxLINE's `validate_stat` instruction, verify the proof, and release supported escrow assets such as USDC. The internal TxLINE credit token must not be used for peer-to-peer transfers.
 
 ## TypeScript
 
@@ -134,8 +136,9 @@ Recommended TypeScript settings:
 2. Analytics Engine: pure calculations, Kelly sizing, confidence scoring, movement detection, and charts.
 3. AI Insights: structured explanation modules, deterministic fallback, OpenAI-ready API route.
 4. TxLINE Integration: live REST/SSE adapter behind environment switches.
-5. Settlement: mocked receipt, then Anchor devnet program and TxLINE `validate_stat` CPI.
-6. Polish: accessibility, responsive QA, demo video script, Vercel deployment.
+5. Settlement: proof request payloads, deterministic devnet-ready receipts, payout math, API route, and Anchor CPI documentation.
+6. Anchor Implementation: compile the devnet program and add tests for valid, invalid, duplicate, and losing settlements.
+7. Polish: accessibility, responsive QA, demo video script, Vercel deployment.
 
 ## Route Structure
 
@@ -150,6 +153,7 @@ app/
   settlement/page.tsx
   docs/page.tsx
   api/insights/route.ts
+  api/settlement/route.ts
   api/txline/status/route.ts
   api/txline/stream/route.ts
 components/

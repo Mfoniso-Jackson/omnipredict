@@ -3,7 +3,7 @@ import { Card, CardTitle } from "@/components/ui/card";
 const sections = [
   {
     title: "Current milestone",
-    body: "Milestone 4 adds the TxLINE adapter boundary: mock-by-default data, live REST normalization when enabled, fallback behavior, status inspection, and an SSE-compatible snapshot endpoint."
+    body: "Milestone 5 adds the settlement engine: TxLINE proof request payloads, deterministic devnet-ready receipt simulation, payout math, account metadata, and a typed /api/settlement route."
   },
   {
     title: "Architecture",
@@ -22,8 +22,12 @@ const sections = [
     body: "GET /api/txline/status reports the active adapter mode. GET /api/txline/stream emits a snapshot event with status, matches, odds, and events for SSE-ready demos."
   },
   {
+    title: "Settlement route",
+    body: "GET /api/settlement returns the default simulated settlement. POST /api/settlement with matchId, outcome, proofHash, stake, odds, and asset to receive a devnet-ready receipt."
+  },
+  {
     title: "Next milestones",
-    body: "Next steps are persistence, Solana devnet settlement, TxLINE validate_stat integration, and a final polish pass for the demo video."
+    body: "Next steps are an Anchor workspace, on-chain tests, real validate_stat CPI wiring, responsive QA, demo video flow, and Vercel deployment."
   }
 ];
 
