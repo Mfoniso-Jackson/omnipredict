@@ -2,6 +2,15 @@
 
 OmniPredict is a TxLINE World Cup hackathon demo: Bloomberg-style market intelligence for prediction markets with implied probabilities, AI-style explanations, EV signals, Kelly sizing, portfolio simulation, and a Solana settlement receipt flow.
 
+## Hackathon Context
+
+Built for the TxODDS World Cup TxLINE Prediction Markets and Settlement track on Superteam Earn.
+
+- Submission deadline: July 19, 2026 at 23:59 UTC.
+- Winner announcement: July 29, 2026 at 15:00 UTC.
+- Required submission assets: demo video, public repo, working deployed app or endpoint, technical documentation, and TxLINE API feedback.
+- See `SUBMISSION.md` for judging criteria alignment and the demo video outline.
+
 ## Quick Start
 
 ```bash
@@ -58,6 +67,8 @@ Replace `MockTxlineAdapter` in `src/adapters/txline-adapter.js` with calls to th
 - `listPositions()`
 - `subscribe(callback)`
 
+The mock data mirrors the requested hackathon primitives: World Cup scores, match events, consensus odds, odds movement, red cards, settlement outcomes, and Merkle proof placeholders.
+
 ## AI Upgrade Path
 
 The current AI layer is deterministic and local via `explainMarketMove()`. For a production version, move that function behind a Next.js API route or FastAPI endpoint, pass the structured match and odds object to OpenAI, then cache insights by match ID and odds snapshot hash.
@@ -65,3 +76,5 @@ The current AI layer is deterministic and local via `explainMarketMove()`. For a
 ## Settlement Upgrade Path
 
 The frontend settlement page displays a simulated receipt. `contracts/anchor-stub/settlement-program.rs` shows the intended Anchor program shape for devnet integration.
+
+The intended production path is to CPI into TxLINE's `validate_stat` instruction, verify the submitted proof, mark the prediction market outcome, and release supported escrow assets such as USDC. OmniPredict does not use the internal TxLINE credit token for peer-to-peer transfers.

@@ -188,9 +188,10 @@ function settlementPage() {
     <section class="card" style="margin-top:16px">
       <h2>Anchor-Ready Contract Shape</h2>
       <pre><code>settle_market(match_id, market_id, outcome, txline_proof_hash)
-  verify proof hash against trusted TxLINE oracle account
+  CPI into TxLINE validate_stat instruction
+  verify Merkle proof against Solana-anchored signature
   mark winning outcome
-  release escrow to winning token accounts</code></pre>
+  release USDC or supported escrow asset to winning token accounts</code></pre>
     </section>
   `;
 }
@@ -199,12 +200,15 @@ function docsPage() {
   setTitle("Technical Docs");
   return `
     <section class="grid cols-2">
+      <div class="card"><h2>Hackathon Fit</h2><p>Built for the TxODDS World Cup TxLINE Prediction Markets and Settlement track. The demo emphasizes a working build, public repo readiness, TxLINE as the primary data source, and a judge-friendly walkthrough for the July 19, 2026 submission deadline.</p></div>
       <div class="card"><h2>Architecture</h2><p>Static demo frontend with a TxLINE-compatible adapter, market analytics engine, mock SSE tick updates, AI insight generator, portfolio simulator, and settlement receipt module. A production version can swap the adapter for live TxLINE endpoints behind Next.js API routes or FastAPI.</p></div>
-      <div class="card"><h2>TxLINE Endpoints Used</h2><p>Mock shapes cover matches, odds snapshots, match events, score updates, red cards, market movements, settlement outcomes, and Merkle proof placeholders. Toggle targets: <strong>MOCK_MODE=true</strong> or <strong>TXLINE_LIVE=true</strong>.</p></div>
+      <div class="card"><h2>TxLINE Endpoints Used</h2><p>Mock shapes mirror the World Cup stream: matches, scores, match events, consensus odds, odds snapshots, red cards, settlement outcomes, and Merkle proof placeholders. Toggle targets: <strong>MOCK_MODE=true</strong> or <strong>TXLINE_LIVE=true</strong>.</p></div>
       <div class="card"><h2>AI Logic</h2><p>The insight layer accepts structured match state, odds, normalized implied probabilities, fair probabilities, event timeline, and movement deltas. It returns concise explanations, sentiment, overreaction flags, and underpriced outcomes.</p></div>
-      <div class="card"><h2>Settlement Flow</h2><p>TxLINE proof hash validates outcome, settlement logic maps proof to market ID, and the simulated Solana devnet receipt demonstrates status, proof hash, match ID, market ID, and payout state.</p></div>
-      <div class="card"><h2>Hackathon Feedback</h2><p>OmniPredict prioritizes understanding markets over placing bets: odds explainability, risk sizing, fair value, portfolio exposure, and trustless settlement are surfaced as first-class workflows.</p></div>
-      <div class="card"><h2>Next Steps</h2><p>Add real TxLINE credentials, wire an OpenAI API route for richer explanations, persist positions in Supabase or SQLite, and replace the settlement mock with an Anchor program deployed to Solana devnet.</p></div>
+      <div class="card"><h2>Settlement Flow</h2><p>TxLINE proof hash validates outcome, settlement logic maps proof to market ID, and the simulated Solana devnet receipt demonstrates status, proof hash, match ID, market ID, and payout state. The Anchor stub is designed to CPI into TxLINE's validate_stat instruction.</p></div>
+      <div class="card"><h2>Token Constraint</h2><p>OmniPredict does not use the internal TxLINE credit token for peer-to-peer transfers. Any future escrow or AMM path should settle with supported assets such as USDC while TxLINE remains the verification and data authorization layer.</p></div>
+      <div class="card"><h2>Demo Video Checklist</h2><p>Show the problem, dashboard walkthrough, SSE-style match updates, implied probability engine, AI explanations, Kelly risk guardrail, portfolio view, and settlement receipt with proof hash. The brief requires a demo video up to five minutes.</p></div>
+      <div class="card"><h2>Hackathon Feedback</h2><p>What worked: normalized JSON makes match, event, and odds screens easy to model. Friction to report: final live match timing may limit review activity, so the mock adapter preserves the exact demo flow judges need to inspect.</p></div>
+      <div class="card"><h2>Next Steps</h2><p>Add real TxLINE credentials, wire official World Cup REST/SSE endpoints, deploy the app, persist positions in Supabase or SQLite, and replace the settlement mock with an Anchor program on Solana devnet.</p></div>
     </section>
   `;
 }
