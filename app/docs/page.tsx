@@ -3,7 +3,7 @@ import { Card, CardTitle } from "@/components/ui/card";
 const sections = [
   {
     title: "Current milestone",
-    body: "Milestone 6 makes OmniPredict submission-ready: demo runbook, deployment guide, health endpoint, polished docs, and stable judge-facing API checks."
+    body: "Milestone 7 adds the Anchor workspace scaffold: program source, devnet program id wiring, TxLINE validate_stat CPI account shape, receipt event, and contract test skeleton."
   },
   {
     title: "Architecture",
@@ -31,7 +31,7 @@ const sections = [
   },
   {
     title: "Next milestone",
-    body: "Next technical step is a real Anchor workspace with devnet deployment and tests for valid, invalid, duplicate, and losing settlements."
+    body: "Next technical step is installing Anchor/Solana in CI or Codespaces, compiling the program, deploying to devnet, and replacing simulated signatures with real transactions."
   }
 ];
 

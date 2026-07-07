@@ -83,7 +83,7 @@ References from the bounty:
 
 ## Settlement Plan
 
-The bounty encourages custom on-chain settlement engines that use TxLINE proofs. OmniPredict includes a devnet-ready settlement simulation at `/api/settlement` and an Anchor-shaped stub under `contracts/anchor-stub/settlement-program.rs`.
+The bounty encourages custom on-chain settlement engines that use TxLINE proofs. OmniPredict includes a devnet-ready settlement simulation at `/api/settlement`, an Anchor workspace scaffold under `contracts/programs/omnipredict_settlement`, and the original Anchor-shaped reference under `contracts/anchor-stub/settlement-program.rs`.
 
 Intended production settlement:
 
@@ -103,7 +103,7 @@ Important constraint: OmniPredict does not use the internal TxLINE credit token 
 4. Sharp movement detector: show unexplained market movement when odds move without a visible match event.
 5. Portfolio: show simulated exposure, expected return, downside, and P/L.
 6. Settlement: show TxLINE proof hash, verified outcome, market ID, payout math, receipt account, and simulated Solana devnet signature.
-7. Technical close: explain mock-to-live TxLINE adapter and Anchor settlement upgrade path.
+7. Technical close: explain mock-to-live TxLINE adapter, Anchor workspace scaffold, and settlement upgrade path.
 
 See `DEMO.md` for the timed walkthrough and copy-paste API smoke tests.
 

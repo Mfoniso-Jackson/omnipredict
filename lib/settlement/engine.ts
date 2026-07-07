@@ -23,7 +23,7 @@ export function createSettlementRequest(match: Match, overrides: Partial<Settlem
 
 export function simulateSettlement(request: SettlementProofRequest): SettlementSimulation {
   const cluster = getSolanaCluster();
-  const programId = process.env.SETTLEMENT_PROGRAM_ID ?? "OmniPredict1111111111111111111111111111111";
+  const programId = process.env.SETTLEMENT_PROGRAM_ID ?? "Fg6PaFpoGXkYsidMpWxTWqkVg7j1j6x4VJ5L9XQ3o5y";
   const proofValid = isValidProofHash(request.proofHash);
   const payoutAmount = roundMoney(request.stake * request.odds);
   const txSignature = createDeterministicSignature(request);

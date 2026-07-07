@@ -20,7 +20,7 @@ npm run dev
 
 Open `http://127.0.0.1:4173`.
 
-The current milestone makes OmniPredict submission-ready: demo runbook, deployment guide, health endpoint, polished docs, and stable judge-facing API checks.
+The current milestone adds the Anchor settlement workspace scaffold: program source, devnet program id wiring, TxLINE `validate_stat` CPI account shape, receipt event, and contract test skeleton.
 
 Submission helpers:
 
@@ -63,7 +63,7 @@ lib/portfolio/                  Portfolio exposure and return logic
 lib/settlement/                 Settlement receipt helpers and devnet-ready simulation engine
 types/                          Shared TypeScript domain types
 data/                           Mock TxLINE-style World Cup fixtures
-contracts/                      Solana/Anchor settlement integration boundary
+contracts/                      Solana/Anchor settlement workspace and integration boundary
 DEMO.md                         Five-minute demo runbook and API smoke tests
 DEPLOYMENT.md                   Vercel and post-deploy verification guide
 ```
@@ -160,14 +160,15 @@ Completed:
 4. TxLINE integration: adapter contract, mock/live selection, REST normalization, fallback behavior, status endpoint, and SSE snapshot endpoint.
 5. Settlement: proof request payloads, deterministic devnet-ready receipt simulation, payout math, settlement API route, and Anchor CPI documentation.
 6. Submission readiness: demo runbook, deployment guide, health endpoint, in-app API docs, and production verification checks.
+7. Anchor scaffold: Anchor workspace layout, settlement program source, TxLINE CPI account shape, receipt event, and contract test skeleton.
 
 Planned next:
 
-1. Anchor workspace: compile the settlement program and add program tests.
+1. Anchor toolchain: install Anchor/Solana in CI or Codespaces, compile the program, and run contract tests.
 2. Live integration hardening: validate official TxLINE payloads, deploy, and record the final demo.
 
 ## Settlement Upgrade Path
 
-The frontend settlement page displays a devnet-ready simulated receipt. `contracts/anchor-stub/settlement-program.rs` shows the intended Anchor program shape for devnet integration.
+The frontend settlement page displays a devnet-ready simulated receipt. `contracts/programs/omnipredict_settlement/src/lib.rs` contains the Anchor workspace program scaffold, while `contracts/anchor-stub/settlement-program.rs` remains as the original dependency-free reference.
 
 The intended production path is to CPI into TxLINE's `validate_stat` instruction, verify the submitted proof, mark the prediction market outcome, and release supported escrow assets such as USDC. OmniPredict does not use the internal TxLINE credit token for peer-to-peer transfers.
