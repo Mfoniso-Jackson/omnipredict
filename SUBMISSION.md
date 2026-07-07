@@ -46,9 +46,9 @@ The UI is built around soccer fans, analysts, and builders who need to understan
 
 ### Code Quality and Logic
 
-The deterministic market logic lives in `src/analytics/market-engine.js` and is covered by `tests/analytics.test.mjs`.
+The deterministic market logic lives in `lib/analytics/market.ts` and is supported by strict TypeScript checks.
 
-The master engineering brief is reflected in the repo through separate analytics, AI, portfolio, TxLINE adapter, settlement, and domain-contract modules. `ARCHITECTURE.md` documents the production Next.js/TypeScript target and milestone plan.
+The master engineering brief is reflected in the repo through separate analytics, AI, portfolio, TxLINE client, settlement, and domain-contract modules. `ARCHITECTURE.md` documents the Next.js/TypeScript architecture and milestone plan.
 
 ## TxLINE Data Plan
 

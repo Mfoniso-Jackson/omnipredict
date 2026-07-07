@@ -14,12 +14,13 @@ Built for the TxODDS World Cup TxLINE Prediction Markets and Settlement track on
 ## Quick Start
 
 ```bash
+npm install
 npm run dev
 ```
 
 Open `http://127.0.0.1:4173`.
 
-This project is dependency-free for the demo build. It uses browser ES modules and Node's built-in HTTP server APIs.
+This milestone is a Next.js App Router application using TypeScript, Tailwind CSS, ESLint, and a shadcn/ui-ready project structure.
 
 ## GitHub Codespaces
 
@@ -28,7 +29,7 @@ This repo includes a devcontainer optimized for Codespaces. Create a codespace o
 Manual Codespaces command:
 
 ```bash
-npm run dev -- --host 0.0.0.0 --port 4173
+npm run dev:codespace
 ```
 
 See `CODESPACES.md` for details.
@@ -36,29 +37,30 @@ See `CODESPACES.md` for details.
 ## Scripts
 
 ```bash
-npm run dev      # local static app server
-npm run start    # same server pinned to 127.0.0.1:4173
-npm run check    # JavaScript syntax checks
-npm test         # analytics engine unit tests
+npm run dev        # Next.js dev server on port 4173
+npm run build      # production build
+npm run start      # serve production build on port 4173
+npm run lint       # ESLint
+npm run typecheck  # TypeScript checks
+npm run check      # typecheck + lint
 ```
 
 ## Project Structure
 
 ```text
-app.js                         Browser UI and route rendering
-styles.css                     Dashboard styling
-src/adapters/txline-adapter.js Mock/live TxLINE adapter boundary
-src/analytics/market-engine.js Probability, EV, Kelly, movement logic
-src/ai/explanation-engine.js   Structured AI-style explanations
-src/portfolio/portfolio-engine.js Portfolio exposure and return logic
-src/settlement/settlement-engine.js Settlement receipt logic
-src/domain/types.d.ts          TypeScript contracts for migration
-src/data/mock-txline.js        Realistic World Cup mock data
-tests/analytics.test.mjs       Dependency-free engine tests
-contracts/                     Solana/Anchor settlement integration boundary
+app/                            App Router pages and layout
+components/                     Reusable UI and market components
+lib/analytics/                  Probability, EV, and odds logic
+lib/ai/                         Structured mock insight helpers
+lib/txline/                     Mock TxLINE client boundary
+lib/portfolio/                  Portfolio exposure and return logic
+lib/settlement/                 Settlement receipt helpers
+types/                          Shared TypeScript domain types
+data/                           Mock TxLINE-style World Cup fixtures
+contracts/                      Solana/Anchor settlement integration boundary
 ```
 
-See `ARCHITECTURE.md` for the layered system design, module ownership, TypeScript target, and Next.js migration plan.
+See `ARCHITECTURE.md` for the layered system design, module ownership, and milestone plan.
 
 ## Environment
 
@@ -79,17 +81,28 @@ Primary switches:
 
 ## Live TxLINE Upgrade Path
 
-Replace `MockTxlineAdapter` in `src/adapters/txline-adapter.js` with calls to the official TxLINE World Cup REST/SSE endpoints. The UI already expects:
+Replace the mock client in `lib/txline/mockClient.ts` with calls to the official TxLINE World Cup REST/SSE endpoints. The UI already expects:
 
 - `listMatches()`
-- `listPositions()`
-- `subscribe(callback)`
+- match lookup by ID
+- odds snapshots
+- match events
+- prediction positions
+- settlement receipts
 
 The mock data mirrors the requested hackathon primitives: World Cup scores, match events, consensus odds, odds movement, red cards, settlement outcomes, and Merkle proof placeholders.
 
 ## AI Upgrade Path
 
-The current AI layer is deterministic and local via `src/ai/explanation-engine.js`. For a production version, move that module behind a Next.js API route or FastAPI endpoint, pass the structured match and odds object to OpenAI, then cache insights by match ID and odds snapshot hash.
+The current AI layer is deterministic and local via `lib/ai/insights.ts`. For a production version, move that module behind a Next.js API route, pass the structured match and odds object to OpenAI, then cache insights by match ID and odds snapshot hash.
+
+## Planned Next Milestones
+
+1. Analytics depth: Kelly sizing, confidence scoring, movement detection, and charts.
+2. AI intelligence: OpenAI-backed explanation route with deterministic fallback.
+3. TxLINE integration: live World Cup REST/SSE client behind environment switches.
+4. Settlement: Solana devnet receipt flow and Anchor integration path.
+5. Polish: responsive QA, accessibility pass, demo video flow, and Vercel deployment.
 
 ## Settlement Upgrade Path
 

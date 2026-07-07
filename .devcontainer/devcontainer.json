@@ -11,9 +11,9 @@
       "onAutoForward": "openPreview"
     }
   },
-  "postCreateCommand": "npm run check && npm test",
+  "postCreateCommand": "npm install && npm run check",
   "postAttachCommand": {
-    "server": "npm run dev -- --host 0.0.0.0 --port 4173"
+    "server": "npm run dev:codespace"
   },
   "customizations": {
     "vscode": {

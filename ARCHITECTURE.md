@@ -1,6 +1,6 @@
 # OmniPredict Architecture
 
-OmniPredict is designed as a production-quality MVP for the TxODDS World Cup hackathon. The current build is a dependency-free static app for reliable demo delivery, with module boundaries that map cleanly to a future Next.js App Router, TypeScript, Tailwind, shadcn/ui, Recharts, and Vercel deployment.
+OmniPredict is designed as a production-quality MVP for the TxODDS World Cup hackathon. The current build is Milestone 1: a Next.js App Router, TypeScript, Tailwind CSS, ESLint, and shadcn/ui-ready foundation powered by mock TxLINE-style World Cup data.
 
 ## Product Positioning
 
@@ -17,30 +17,32 @@ OmniPredict is not a betting application. It is an AI decision-support system fo
 
 ```text
 Presentation Layer
-  app.js, index.html, styles.css
+  app/, components/, app/globals.css
 
 Business Logic Layer
   route composition and view orchestration
 
 Analytics Layer
-  src/analytics/market-engine.js
+  lib/analytics/market.ts
 
 AI Intelligence Layer
-  src/ai/explanation-engine.js
+  lib/ai/insights.ts
 
 Market Data Layer
-  src/adapters/txline-adapter.js
-  src/data/mock-txline.js
+  lib/txline/mockClient.ts
+  data/mockMatches.ts
+  data/mockOdds.ts
+  data/mockEvents.ts
 
 Portfolio Layer
-  src/portfolio/portfolio-engine.js
+  lib/portfolio/portfolio.ts
 
 Settlement Layer
-  src/settlement/settlement-engine.js
+  lib/settlement/receipts.ts
   contracts/anchor-stub/settlement-program.rs
 
 Domain Contracts
-  src/domain/types.d.ts
+  types/index.ts
 ```
 
 Each layer should be replaceable without forcing a rewrite of the others. UI code must not call TxLINE endpoints directly; it should depend on adapter interfaces.
@@ -66,16 +68,17 @@ Structured explanation modules:
 - Explanation Engine: generates concise natural-language movement summaries.
 - Sentiment Classifier: turns probability gaps into market sentiment.
 
-The current implementation is deterministic for demo reliability. A production version should move this behind a Next.js API route and call OpenAI with structured match snapshots.
+The current implementation is deterministic for demo reliability. A production version should move this behind an App Router API route and call OpenAI with structured match snapshots.
 
 ### TxLINE Adapter
 
-All TxLINE integration belongs behind `TxlineAdapter`:
+All TxLINE integration belongs behind a client/service boundary:
 
 ```ts
-listMatches(): Promise<TxlineMatch[]>
-listPositions(): Promise<PortfolioPosition[]>
-subscribe(callback): () => void
+getMatches(): Match[]
+getMatch(id): Match | undefined
+getOddsForMatch(matchId): OddsSnapshot[]
+getEventsForMatch(matchId): MatchEvent[]
 ```
 
 The live adapter should consume the World Cup REST/SSE feed, while the mock adapter should remain available for judge demos and local tests.
@@ -100,9 +103,9 @@ Prediction -> Collateral -> TxLINE Validation -> Settlement -> Receipt
 
 The MVP shows a simulated receipt. The Anchor path should CPI into TxLINE's `validate_stat` instruction, verify the proof, and release supported escrow assets such as USDC. The internal TxLINE credit token must not be used for peer-to-peer transfers.
 
-## TypeScript Target
+## TypeScript
 
-The production target is strict TypeScript. The current repo includes `src/domain/types.d.ts` to define contracts before a framework migration. A Next.js version should convert `.js` modules to `.ts` and UI routes/components to `.tsx`.
+The app uses strict TypeScript and shared domain contracts in `types/index.ts`.
 
 Recommended TypeScript settings:
 
@@ -127,7 +130,7 @@ Recommended TypeScript settings:
 6. Settlement: mocked receipt, then Anchor devnet program and TxLINE `validate_stat` CPI.
 7. Polish: accessibility, responsive QA, demo video script, Vercel deployment.
 
-## Next.js Migration Plan
+## Route Structure
 
 Target structure:
 
@@ -141,19 +144,19 @@ app/
   docs/page.tsx
   api/insights/route.ts
 components/
-  metric-card.tsx
-  probability-bar.tsx
-  market-table.tsx
-  settlement-receipt.tsx
+  ui/
+  market/
 lib/
   analytics/
   ai/
   txline/
   portfolio/
   settlement/
+types/
+data/
 ```
 
-Keep existing pure modules as the source of truth during migration.
+Milestone 1 intentionally uses mock data only. Live TxLINE and OpenAI integrations should enter through `lib/` boundaries, not directly inside pages.
 
 ## Accessibility and Performance
 

@@ -1,6 +1,6 @@
 # Codespaces Guide
 
-OmniPredict is optimized to run in GitHub Codespaces without installing project dependencies.
+OmniPredict is optimized to run in GitHub Codespaces as a Next.js App Router project.
 
 ## Launch
 
@@ -13,19 +13,19 @@ OmniPredict is optimized to run in GitHub Codespaces without installing project 
 ## Manual Commands
 
 ```bash
-npm run dev -- --host 0.0.0.0 --port 4173
+npm run dev:codespace
 npm run check
-npm test
+npm run typecheck
 ```
 
-Use `0.0.0.0` inside Codespaces so the forwarded port is reachable from the browser preview.
+The `dev:codespace` script binds to `0.0.0.0` so the forwarded port is reachable from the browser preview.
 
 ## What The Container Does
 
 - Uses the official Node 22 devcontainer image.
 - Installs GitHub CLI support through a devcontainer feature.
-- Runs syntax checks and unit tests after creation.
-- Starts the static OmniPredict server on attach.
+- Installs npm dependencies and runs type/lint checks after creation.
+- Starts the Next.js dev server on attach.
 - Auto-forwards port `4173` and opens the preview.
 
 ## Troubleshooting
@@ -33,13 +33,13 @@ Use `0.0.0.0` inside Codespaces so the forwarded port is reachable from the brow
 If the preview is blank, run:
 
 ```bash
-npm run dev -- --host 0.0.0.0 --port 4173
+npm run dev:codespace
 ```
 
 If a port is already in use, run:
 
 ```bash
-npm run dev -- --host 0.0.0.0 --port 4174
+npm run dev -- --hostname 0.0.0.0 --port 4174
 ```
 
 Then open the newly forwarded port from the Codespaces **Ports** tab.
