@@ -1,0 +1,67 @@
+# OmniPredict
+
+OmniPredict is a TxLINE World Cup hackathon demo: Bloomberg-style market intelligence for prediction markets with implied probabilities, AI-style explanations, EV signals, Kelly sizing, portfolio simulation, and a Solana settlement receipt flow.
+
+## Quick Start
+
+```bash
+npm run dev
+```
+
+Open `http://127.0.0.1:4173`.
+
+This project is dependency-free for the demo build. It uses browser ES modules and Node's built-in HTTP server APIs.
+
+## Scripts
+
+```bash
+npm run dev      # local static app server
+npm run start    # same server pinned to 127.0.0.1:4173
+npm run check    # JavaScript syntax checks
+npm test         # analytics engine unit tests
+```
+
+## Project Structure
+
+```text
+app.js                         Browser UI and route rendering
+styles.css                     Dashboard styling
+src/adapters/txline-adapter.js Mock/live TxLINE adapter boundary
+src/analytics/market-engine.js Probability, EV, Kelly, movement logic
+src/data/mock-txline.js        Realistic World Cup mock data
+tests/analytics.test.mjs       Dependency-free engine tests
+contracts/                     Solana/Anchor settlement integration boundary
+```
+
+## Environment
+
+Copy `.env.example` when wiring real services:
+
+```bash
+cp .env.example .env
+```
+
+Primary switches:
+
+- `MOCK_MODE=true`
+- `TXLINE_LIVE=false`
+- `TXLINE_API_BASE`
+- `TXLINE_SSE_URL`
+- `OPENAI_API_KEY`
+- `SOLANA_CLUSTER=devnet`
+
+## Live TxLINE Upgrade Path
+
+Replace `MockTxlineAdapter` in `src/adapters/txline-adapter.js` with calls to the official TxLINE World Cup REST/SSE endpoints. The UI already expects:
+
+- `listMatches()`
+- `listPositions()`
+- `subscribe(callback)`
+
+## AI Upgrade Path
+
+The current AI layer is deterministic and local via `explainMarketMove()`. For a production version, move that function behind a Next.js API route or FastAPI endpoint, pass the structured match and odds object to OpenAI, then cache insights by match ID and odds snapshot hash.
+
+## Settlement Upgrade Path
+
+The frontend settlement page displays a simulated receipt. `contracts/anchor-stub/settlement-program.rs` shows the intended Anchor program shape for devnet integration.

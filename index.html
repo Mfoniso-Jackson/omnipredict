@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>OmniPredict | World Cup Market Intelligence</title>
+    <meta name="description" content="Bloomberg Terminal meets AI copilot for prediction markets, powered by TxLINE-shaped World Cup data.">
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="rail">
+        <a class="brand" href="#/">
+          <span class="brand-mark">OP</span>
+          <span>
+            <strong>OmniPredict</strong>
+            <small>TxLINE Intelligence</small>
+          </span>
+        </a>
+        <nav class="nav">
+          <a href="#/" data-route="/">Overview</a>
+          <a href="#/dashboard" data-route="/dashboard">Dashboard</a>
+          <a href="#/match/eng-bra" data-route="/match">Match Intel</a>
+          <a href="#/portfolio" data-route="/portfolio">Portfolio</a>
+          <a href="#/settlement" data-route="/settlement">Settlement</a>
+          <a href="#/docs" data-route="/docs">Docs</a>
+        </nav>
+        <section class="rail-panel">
+          <span class="label">Data Mode</span>
+          <strong id="dataMode">MOCK_MODE=true</strong>
+          <p>TxLINE-compatible adapter with live-stream simulation.</p>
+        </section>
+      </aside>
+      <main>
+        <header class="topbar">
+          <div>
+            <span class="eyebrow">World Cup Hackathon Demo</span>
+            <h1 id="pageTitle">OmniPredict</h1>
+          </div>
+          <div class="market-clock">
+            <span class="pulse"></span>
+            <span id="clock">Syncing TxLINE stream</span>
+          </div>
+        </header>
+        <div id="app"></div>
+      </main>
+    </div>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
