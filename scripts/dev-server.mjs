@@ -14,6 +14,7 @@ const args = parseArgs({
 const root = resolve(new URL("..", import.meta.url).pathname);
 const host = args.values.host;
 const port = Number(args.values.port);
+const displayHost = host === "0.0.0.0" ? "localhost" : host;
 
 const mimeTypes = {
   ".html": "text/html; charset=utf-8",
@@ -55,5 +56,8 @@ server.on("error", (error) => {
 });
 
 server.listen(port, host, () => {
-  console.log(`OmniPredict dev server running at http://${host}:${port}`);
+  console.log(`OmniPredict dev server running at http://${displayHost}:${port}`);
+  if (host === "0.0.0.0") {
+    console.log("Listening on all interfaces for Codespaces or container port forwarding.");
+  }
 });

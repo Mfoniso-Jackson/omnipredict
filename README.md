@@ -21,6 +21,18 @@ Open `http://127.0.0.1:4173`.
 
 This project is dependency-free for the demo build. It uses browser ES modules and Node's built-in HTTP server APIs.
 
+## GitHub Codespaces
+
+This repo includes a devcontainer optimized for Codespaces. Create a codespace on `main`; it will run checks, start the dev server, forward port `4173`, and open the OmniPredict dashboard preview.
+
+Manual Codespaces command:
+
+```bash
+npm run dev -- --host 0.0.0.0 --port 4173
+```
+
+See `CODESPACES.md` for details.
+
 ## Scripts
 
 ```bash
