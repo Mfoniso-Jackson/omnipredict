@@ -48,6 +48,8 @@ The UI is built around soccer fans, analysts, and builders who need to understan
 
 The deterministic market logic lives in `src/analytics/market-engine.js` and is covered by `tests/analytics.test.mjs`.
 
+The master engineering brief is reflected in the repo through separate analytics, AI, portfolio, TxLINE adapter, settlement, and domain-contract modules. `ARCHITECTURE.md` documents the production Next.js/TypeScript target and milestone plan.
+
 ## TxLINE Data Plan
 
 The current demo uses realistic mock data with the same integration boundary a live TxLINE source should satisfy:

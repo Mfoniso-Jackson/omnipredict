@@ -2,14 +2,15 @@ import { adapterMode, createTxlineAdapter } from "./src/adapters/txline-adapter.
 import {
   buildMarketRows,
   expectedValue as ev,
-  explainMarketMove as aiInsight,
   formatMoney as fmtMoney,
   formatPercent as fmtPct,
   kellyFraction as kelly,
   movementSeverity,
-  normalizeBook,
-  summarizePortfolio
+  normalizeBook
 } from "./src/analytics/market-engine.js";
+import { explainMarketMove as aiInsight } from "./src/ai/explanation-engine.js";
+import { summarizePortfolio } from "./src/portfolio/portfolio-engine.js";
+import { createSettlementReceipt } from "./src/settlement/settlement-engine.js";
 
 const $ = (selector) => document.querySelector(selector);
 const txline = createTxlineAdapter(adapterMode);
@@ -167,6 +168,7 @@ function portfolioPage() {
 function settlementPage() {
   setTitle("Settlement Demo");
   const match = matches[0];
+  const receipt = createSettlementReceipt(match);
   return `
     <section class="flow">
       <div class="card"><span class="label">Step 1</span><h3>TxLINE Proof</h3><p>Outcome and event stream hash received.</p></div>
@@ -177,11 +179,13 @@ function settlementPage() {
     <section class="card receipt" style="margin-top:16px">
       <div class="card-head"><h2>Settlement Receipt</h2><span class="tag green">Verified → Paid</span></div>
       <table class="table"><tbody>
-        <tr><th>Verified Outcome</th><td>${match.home} won ${match.score[0]}-${match.score[1]}</td></tr>
-        <tr><th>Proof Hash</th><td>${match.proofHash}</td></tr>
-        <tr><th>Match ID</th><td>${match.id}</td></tr>
-        <tr><th>Market ID</th><td>winner:${match.id}:home</td></tr>
-        <tr><th>Settlement Status</th><td class="green">Paid on simulated Solana devnet receipt</td></tr>
+        <tr><th>Verified Outcome</th><td>${receipt.verifiedOutcome}</td></tr>
+        <tr><th>Proof Hash</th><td>${receipt.proofHash}</td></tr>
+        <tr><th>Match ID</th><td>${receipt.matchId}</td></tr>
+        <tr><th>Market ID</th><td>${receipt.marketId}</td></tr>
+        <tr><th>Escrow Asset</th><td>${receipt.asset}</td></tr>
+        <tr><th>Validation Path</th><td>${receipt.validationPath}</td></tr>
+        <tr><th>Settlement Status</th><td class="green">${receipt.status} on simulated Solana devnet receipt</td></tr>
         <tr><th>Devnet Tx</th><td><a class="cyan" href="https://explorer.solana.com/?cluster=devnet" target="_blank" rel="noreferrer">Open Solana Explorer devnet</a></td></tr>
       </tbody></table>
     </section>

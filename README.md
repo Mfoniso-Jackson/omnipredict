@@ -37,10 +37,16 @@ app.js                         Browser UI and route rendering
 styles.css                     Dashboard styling
 src/adapters/txline-adapter.js Mock/live TxLINE adapter boundary
 src/analytics/market-engine.js Probability, EV, Kelly, movement logic
+src/ai/explanation-engine.js   Structured AI-style explanations
+src/portfolio/portfolio-engine.js Portfolio exposure and return logic
+src/settlement/settlement-engine.js Settlement receipt logic
+src/domain/types.d.ts          TypeScript contracts for migration
 src/data/mock-txline.js        Realistic World Cup mock data
 tests/analytics.test.mjs       Dependency-free engine tests
 contracts/                     Solana/Anchor settlement integration boundary
 ```
+
+See `ARCHITECTURE.md` for the layered system design, module ownership, TypeScript target, and Next.js migration plan.
 
 ## Environment
 
@@ -71,7 +77,7 @@ The mock data mirrors the requested hackathon primitives: World Cup scores, matc
 
 ## AI Upgrade Path
 
-The current AI layer is deterministic and local via `explainMarketMove()`. For a production version, move that function behind a Next.js API route or FastAPI endpoint, pass the structured match and odds object to OpenAI, then cache insights by match ID and odds snapshot hash.
+The current AI layer is deterministic and local via `src/ai/explanation-engine.js`. For a production version, move that module behind a Next.js API route or FastAPI endpoint, pass the structured match and odds object to OpenAI, then cache insights by match ID and odds snapshot hash.
 
 ## Settlement Upgrade Path
 
