@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { MatchCard } from "@/components/market/match-card";
 import { Card } from "@/components/ui/card";
-import { txlineMockClient } from "@/lib/txline/mockClient";
+import { txlineClient } from "@/lib/txline/client";
 
-export default function HomePage() {
-  const [featuredMatch] = txlineMockClient.getMatches();
-  const [featuredOdds] = txlineMockClient.getOddsForMatch(featuredMatch.id);
+export default async function HomePage() {
+  const [matches, status] = await Promise.all([txlineClient.getMatches(), txlineClient.getStatus()]);
+  const [featuredMatch] = matches;
+  const [featuredOdds] = featuredMatch ? await txlineClient.getOddsForMatch(featuredMatch.id) : [];
 
   return (
     <div className="grid min-h-[calc(100vh-4rem)] gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
@@ -28,15 +29,19 @@ export default function HomePage() {
         </div>
       </section>
       <div className="grid gap-4">
-        <MatchCard match={featuredMatch} odds={featuredOdds} />
+        {featuredMatch ? <MatchCard match={featuredMatch} odds={featuredOdds} /> : null}
         <Card className="grid gap-3 md:grid-cols-3">
-          <Kpi label="Mock matches" value="3" />
-          <Kpi label="TxLINE mode" value="Mock" />
+          <Kpi label="Matches tracked" value={String(matches.length)} />
+          <Kpi label="TxLINE mode" value={formatTxlineMode(status.mode)} />
           <Kpi label="Risk cap" value="5%" />
         </Card>
       </div>
     </div>
   );
+}
+
+function formatTxlineMode(mode: string) {
+  return mode === "live-fallback" ? "Fallback" : mode.charAt(0).toUpperCase() + mode.slice(1);
 }
 
 function Kpi({ label, value }: { label: string; value: string }) {

@@ -20,7 +20,7 @@ npm run dev
 
 Open `http://127.0.0.1:4173`.
 
-The current milestone adds the AI intelligence layer: structured deterministic explanations by default, OpenAI-ready generation when `OPENAI_API_KEY` is present, and a typed `/api/insights` route.
+The current milestone adds the TxLINE integration boundary: mock-by-default adapter data, live REST normalization when configured, fallback behavior, status inspection, and an SSE-compatible snapshot route.
 
 ## GitHub Codespaces
 
@@ -52,7 +52,7 @@ app/                            App Router pages and layout
 components/                     Reusable UI and market components
 lib/analytics/                  Probability, EV, Kelly, confidence, and odds movement logic
 lib/ai/                         Structured mock insight helpers
-lib/txline/                     Mock TxLINE client boundary
+lib/txline/                     TxLINE adapter, mock client, live REST client, and status types
 lib/portfolio/                  Portfolio exposure and return logic
 lib/settlement/                 Settlement receipt helpers
 types/                          Shared TypeScript domain types
@@ -76,15 +76,23 @@ Primary switches:
 - `TXLINE_LIVE=false`
 - `TXLINE_API_BASE`
 - `TXLINE_SSE_URL`
+- `TXLINE_API_KEY`
 - `OPENAI_API_KEY`
 - `OPENAI_MODEL`
 - `SOLANA_CLUSTER=devnet`
 
-## Live TxLINE Upgrade Path
+## TxLINE Adapter
 
-Replace the mock client in `lib/txline/mockClient.ts` with calls to the official TxLINE World Cup REST/SSE endpoints. The UI already expects:
+The UI now depends on `lib/txline/client.ts`, not directly on fixture data. Local and judge demos stay on the mock adapter unless live mode is explicitly enabled:
 
-- `listMatches()`
+```bash
+TXLINE_LIVE=true
+TXLINE_API_BASE=https://api.txline.example
+```
+
+The live adapter in `lib/txline/liveClient.ts` normalizes REST payloads into OmniPredict domain types and falls back to mock data if a live request is empty or unavailable. The UI expects:
+
+- `getMatches()`
 - match lookup by ID
 - odds snapshots
 - match events
@@ -92,6 +100,13 @@ Replace the mock client in `lib/txline/mockClient.ts` with calls to the official
 - settlement receipts
 
 The mock data mirrors the requested hackathon primitives: World Cup scores, match events, consensus odds, odds movement, red cards, settlement outcomes, and Merkle proof placeholders.
+
+Inspection endpoints:
+
+```bash
+curl http://127.0.0.1:4173/api/txline/status
+curl -N http://127.0.0.1:4173/api/txline/stream
+```
 
 ## AI Intelligence Layer
 
@@ -116,12 +131,12 @@ Completed:
 1. Foundation: Next.js App Router, TypeScript, Tailwind, shadcn/ui-ready structure, mock TxLINE data, and starter routes.
 2. Analytics depth: Kelly sizing, confidence scoring, movement detection, EV ranking, and probability history charts.
 3. AI intelligence: structured insight generation, deterministic fallback, OpenAI-ready API route, and richer match explanations.
+4. TxLINE integration: adapter contract, mock/live selection, REST normalization, fallback behavior, status endpoint, and SSE snapshot endpoint.
 
 Planned next:
 
-1. TxLINE integration: live World Cup REST/SSE client behind environment switches.
-2. Settlement: Solana devnet receipt flow and Anchor integration path.
-3. Polish: responsive QA, accessibility pass, demo video flow, and Vercel deployment.
+1. Settlement: Solana devnet receipt flow and Anchor integration path.
+2. Polish: responsive QA, accessibility pass, demo video flow, and Vercel deployment.
 
 ## Settlement Upgrade Path
 

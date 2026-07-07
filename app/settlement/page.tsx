@@ -1,13 +1,23 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardTitle } from "@/components/ui/card";
 import { createPendingReceipt } from "@/lib/settlement/receipts";
-import { txlineMockClient } from "@/lib/txline/mockClient";
+import { txlineClient } from "@/lib/txline/client";
 
-export default function SettlementPage() {
-  const [match] = txlineMockClient.getMatches();
-  const [verifiedReceipt] = txlineMockClient.getSettlementReceipts();
-  const pendingReceipt = createPendingReceipt(match);
+export default async function SettlementPage() {
+  const [matches, receipts] = await Promise.all([txlineClient.getMatches(), txlineClient.getSettlementReceipts()]);
+  const [match] = matches;
+  const [verifiedReceipt] = receipts;
+  const pendingReceipt = match ? createPendingReceipt(match) : undefined;
   const receipt = verifiedReceipt ?? pendingReceipt;
+
+  if (!receipt) {
+    return (
+      <Card>
+        <CardTitle>Settlement receipt unavailable</CardTitle>
+        <p className="mt-3 text-sm text-zinc-400">No match data is available from the active TxLINE adapter.</p>
+      </Card>
+    );
+  }
 
   return (
     <div className="space-y-6">

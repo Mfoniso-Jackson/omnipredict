@@ -1,6 +1,6 @@
 # OmniPredict Architecture
 
-OmniPredict is designed as a production-quality MVP for the TxODDS World Cup hackathon. The current build includes Milestone 1 foundation work, Milestone 2 analytics depth, and Milestone 3 AI intelligence with deterministic fallback plus an OpenAI-ready App Router API route.
+OmniPredict is designed as a production-quality MVP for the TxODDS World Cup hackathon. The current build includes Milestone 1 foundation work, Milestone 2 analytics depth, Milestone 3 AI intelligence, and Milestone 4 TxLINE adapter integration.
 
 ## Product Positioning
 
@@ -30,7 +30,11 @@ AI Intelligence Layer
   app/api/insights/route.ts
 
 Market Data Layer
+  lib/txline/client.ts
+  lib/txline/liveClient.ts
   lib/txline/mockClient.ts
+  app/api/txline/status/route.ts
+  app/api/txline/stream/route.ts
   data/mockMatches.ts
   data/mockOdds.ts
   data/mockEvents.ts
@@ -78,13 +82,14 @@ The current implementation is deterministic for demo reliability when `OPENAI_AP
 All TxLINE integration belongs behind a client/service boundary:
 
 ```ts
-getMatches(): Match[]
-getMatch(id): Match | undefined
-getOddsForMatch(matchId): OddsSnapshot[]
-getEventsForMatch(matchId): MatchEvent[]
+getStatus(): Promise<TxlineAdapterStatus>
+getMatches(): Promise<Match[]>
+getMatch(id): Promise<Match | undefined>
+getOddsForMatch(matchId): Promise<OddsSnapshot[]>
+getEventsForMatch(matchId): Promise<MatchEvent[]>
 ```
 
-The live adapter should consume the World Cup REST/SSE feed, while the mock adapter should remain available for judge demos and local tests.
+The live adapter consumes World Cup REST payloads when `TXLINE_LIVE=true` and `TXLINE_API_BASE` is present. The mock adapter remains the default for judge demos and local tests. `/api/txline/status` exposes the active mode, and `/api/txline/stream` emits an SSE-compatible snapshot event for deployment checks.
 
 ### Portfolio
 
@@ -145,6 +150,8 @@ app/
   settlement/page.tsx
   docs/page.tsx
   api/insights/route.ts
+  api/txline/status/route.ts
+  api/txline/stream/route.ts
 components/
   ui/
   market/
@@ -158,7 +165,7 @@ types/
 data/
 ```
 
-Milestone 1 intentionally uses mock data only. Live TxLINE and OpenAI integrations should enter through `lib/` boundaries, not directly inside pages.
+Mock data remains the default. Live TxLINE and OpenAI integrations enter through `lib/` boundaries, not directly inside presentation components.
 
 ## Accessibility and Performance
 

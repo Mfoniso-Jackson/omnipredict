@@ -44,7 +44,7 @@ export interface OddsSnapshot {
   matchId: string;
   marketId: string;
   capturedAt: string;
-  source: "TxLINE Mock";
+  source: "TxLINE Mock" | "TxLINE Live" | string;
   odds: Record<string, number>;
   fairProbability: Record<string, number>;
   confidence: number;

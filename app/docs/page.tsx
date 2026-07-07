@@ -3,23 +3,27 @@ import { Card, CardTitle } from "@/components/ui/card";
 const sections = [
   {
     title: "Current milestone",
-    body: "Milestone 3 adds structured AI intelligence: deterministic market explanations by default, OpenAI-ready generation when an API key is present, and a typed /api/insights route."
+    body: "Milestone 4 adds the TxLINE adapter boundary: mock-by-default data, live REST normalization when enabled, fallback behavior, status inspection, and an SSE-compatible snapshot endpoint."
   },
   {
     title: "Architecture",
-    body: "The app is organized into app routes, reusable components, pure analytics utilities, AI insight helpers, a mock TxLINE client, portfolio logic, settlement helpers, shared types, and data fixtures."
+    body: "The app is organized into app routes, reusable components, pure analytics utilities, AI insight helpers, a TxLINE adapter layer, portfolio logic, settlement helpers, shared types, and data fixtures."
   },
   {
     title: "Mock data",
     body: "Mock matches, odds snapshots, and events live in /data. They model score, status, odds, fair probabilities, event hashes, AI insights, positions, and settlement receipts."
   },
   {
-    title: "AI route",
+    title: "API routes",
     body: "POST /api/insights with a matchId to receive a structured AIInsight object containing title, summary, sentiment, confidence, drivers, risk notes, and recommendation."
   },
   {
+    title: "TxLINE routes",
+    body: "GET /api/txline/status reports the active adapter mode. GET /api/txline/stream emits a snapshot event with status, matches, odds, and events for SSE-ready demos."
+  },
+  {
     title: "Next milestones",
-    body: "Next steps are live TxLINE REST/SSE integration, persistence, Solana devnet settlement, and a final polish pass for the demo video."
+    body: "Next steps are persistence, Solana devnet settlement, TxLINE validate_stat integration, and a final polish pass for the demo video."
   }
 ];
 

@@ -41,9 +41,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               ))}
             </nav>
             <div className="mt-8 rounded-lg border border-emerald-400/20 bg-emerald-400/10 p-4">
-              <p className="text-xs uppercase tracking-[0.22em] text-emerald-300">Milestone 3</p>
+              <p className="text-xs uppercase tracking-[0.22em] text-emerald-300">Milestone 4</p>
               <p className="mt-2 text-sm text-zinc-300">
-                AI market insight generation with deterministic fallback and OpenAI-ready routing.
+                TxLINE adapter integration with live REST normalization and mock fallback.
               </p>
             </div>
           </aside>

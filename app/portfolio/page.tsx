@@ -1,10 +1,11 @@
 import { Card, CardTitle } from "@/components/ui/card";
 import { formatMoney, formatPercent, formatSignedPercent } from "@/lib/analytics/market";
 import { summarizePortfolio } from "@/lib/portfolio/portfolio";
-import { txlineMockClient } from "@/lib/txline/mockClient";
+import { txlineClient } from "@/lib/txline/client";
 
-export default function PortfolioPage() {
-  const portfolio = summarizePortfolio(txlineMockClient.getPositions());
+export default async function PortfolioPage() {
+  const positions = await txlineClient.getPositions();
+  const portfolio = summarizePortfolio(positions);
 
   return (
     <div className="space-y-6">
@@ -12,7 +13,7 @@ export default function PortfolioPage() {
         <p className="text-sm uppercase tracking-[0.28em] text-emerald-300">Simulated portfolio</p>
         <h1 className="mt-3 text-4xl font-black tracking-tight text-white">Exposure and expected return</h1>
         <p className="mt-3 max-w-3xl text-zinc-400">
-          Milestone 1 uses mock positions only. No wallet connection, funds transfer, or live wagering is implemented.
+          OmniPredict tracks simulated positions through the same TxLINE adapter boundary used by match intelligence.
         </p>
       </header>
 

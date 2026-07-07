@@ -13,15 +13,18 @@ import {
   formatSignedPercent,
   historyToProbabilitySeries
 } from "@/lib/analytics/market";
-import { txlineMockClient } from "@/lib/txline/mockClient";
+import { txlineClient } from "@/lib/txline/client";
 
 export default async function MatchDetailPage({ params }: { params: { id: string } }) {
-  const match = txlineMockClient.getMatch(params.id);
+  const match = await txlineClient.getMatch(params.id);
   if (!match) notFound();
 
-  const odds = txlineMockClient.getOddsForMatch(match.id);
-  const events = txlineMockClient.getEventsForMatch(match.id);
-  const history = txlineMockClient.getOddsHistoryForMatch(match.id);
+  const [odds, events, history, txlineStatus] = await Promise.all([
+    txlineClient.getOddsForMatch(match.id),
+    txlineClient.getEventsForMatch(match.id),
+    txlineClient.getOddsHistoryForMatch(match.id),
+    txlineClient.getStatus()
+  ]);
   const bestOpportunity = findBestOpportunity(odds);
   const movementSignal = detectMovement(history, events);
   const probabilitySeries = historyToProbabilitySeries(history);
@@ -36,6 +39,7 @@ export default async function MatchDetailPage({ params }: { params: { id: string
             {match.homeTeam.name} vs {match.awayTeam.name}
           </h1>
           <p className="mt-2 text-zinc-400">{match.round} · TxLINE ID {match.txlineMatchId}</p>
+          <p className="mt-2 text-xs uppercase tracking-wide text-emerald-300">Adapter: {txlineStatus.mode}</p>
         </div>
         <div className="font-mono text-5xl font-black text-white">
           {match.score.home}-{match.score.away}
@@ -46,7 +50,7 @@ export default async function MatchDetailPage({ params }: { params: { id: string
         <Card>
           <CardHeader>
             <CardTitle>Odds and fair value</CardTitle>
-            <Badge tone="blue">Mock TxLINE snapshots</Badge>
+            <Badge tone="blue">{txlineStatus.source}</Badge>
           </CardHeader>
           <div className="overflow-x-auto">
             <table className="w-full min-w-[680px] text-left text-sm">

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { generateMarketInsight } from "@/lib/ai/insights";
-import { txlineMockClient } from "@/lib/txline/mockClient";
+import { txlineClient } from "@/lib/txline/client";
 
 interface InsightRequestBody {
   matchId?: string;
@@ -21,17 +21,22 @@ export async function GET(request: Request) {
 }
 
 async function createInsightResponse(matchId: string) {
-  const match = txlineMockClient.getMatch(matchId);
+  const match = await txlineClient.getMatch(matchId);
 
   if (!match) {
     return NextResponse.json({ error: "Match not found" }, { status: 404 });
   }
 
+  const [odds, events, history] = await Promise.all([
+    txlineClient.getOddsForMatch(match.id),
+    txlineClient.getEventsForMatch(match.id),
+    txlineClient.getOddsHistoryForMatch(match.id)
+  ]);
   const insight = await generateMarketInsight({
     match,
-    odds: txlineMockClient.getOddsForMatch(match.id),
-    events: txlineMockClient.getEventsForMatch(match.id),
-    history: txlineMockClient.getOddsHistoryForMatch(match.id)
+    odds,
+    events,
+    history
   });
 
   return NextResponse.json({ insight });
