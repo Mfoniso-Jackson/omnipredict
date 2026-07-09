@@ -23,6 +23,10 @@ pub mod omnipredict_settlement {
         require!(!match_id.is_empty(), SettlementError::InvalidMarket);
         require!(!market_id.is_empty(), SettlementError::InvalidMarket);
         require!(!outcome.is_empty(), SettlementError::InvalidOutcome);
+        require!(match_id.len() <= SettlementReceipt::MAX_MATCH_ID, SettlementError::FieldTooLong);
+        require!(market_id.len() <= SettlementReceipt::MAX_MARKET_ID, SettlementError::FieldTooLong);
+        require!(outcome.len() <= SettlementReceipt::MAX_OUTCOME, SettlementError::FieldTooLong);
+        require!(txline_proof_hash != [0; 32], SettlementError::InvalidProof);
 
         // Production CPI hook:
         // invoke TxLINE validate_stat with txline_oracle, txline_program, and proof accounts.
@@ -150,4 +154,8 @@ pub enum SettlementError {
     InvalidOutcome,
     #[msg("Payout calculation overflowed.")]
     PayoutOverflow,
+    #[msg("Submitted TxLINE proof hash is invalid.")]
+    InvalidProof,
+    #[msg("Submitted receipt field exceeds the allocated account size.")]
+    FieldTooLong,
 }

@@ -20,7 +20,7 @@ npm run dev
 
 Open `http://127.0.0.1:4173`.
 
-The current milestone adds the Anchor settlement workspace scaffold: program source, devnet program id wiring, TxLINE `validate_stat` CPI account shape, receipt event, and contract test skeleton.
+The current milestone adds Anchor/Solana toolchain readiness: devcontainer bootstrap, contract build/test commands, expanded settlement validation tests, and a documented devnet deployment path.
 
 Submission helpers:
 
@@ -161,10 +161,11 @@ Completed:
 5. Settlement: proof request payloads, deterministic devnet-ready receipt simulation, payout math, settlement API route, and Anchor CPI documentation.
 6. Submission readiness: demo runbook, deployment guide, health endpoint, in-app API docs, and production verification checks.
 7. Anchor scaffold: Anchor workspace layout, settlement program source, TxLINE CPI account shape, receipt event, and contract test skeleton.
+8. Anchor toolchain readiness: Codespaces bootstrap, contract build/test scripts, expanded validation tests, and devnet deployment checklist.
 
 Planned next:
 
-1. Anchor toolchain: install Anchor/Solana in CI or Codespaces, compile the program, and run contract tests.
+1. Devnet deployment: run the toolchain in a full Anchor environment, deploy the program, and capture real transaction signatures.
 2. Live integration hardening: validate official TxLINE payloads, deploy, and record the final demo.
 
 ## Settlement Upgrade Path

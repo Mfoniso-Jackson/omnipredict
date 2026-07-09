@@ -12,6 +12,8 @@
     "lint": "next lint",
     "typecheck": "next build",
     "check": "next lint && next build",
+    "contracts:install": "bash .devcontainer/setup-anchor-toolchain.sh",
+    "contracts:doctor": "bash contracts/scripts/doctor.sh",
     "contracts:build": "cd contracts && anchor build",
     "contracts:test": "cd contracts && anchor test"
   },

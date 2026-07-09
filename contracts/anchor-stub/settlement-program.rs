@@ -16,6 +16,9 @@ pub mod omnipredict_settlement {
         txline_proof_hash: [u8; 32],
     ) -> Result<()> {
         require!(!ctx.accounts.receipt.settled, SettlementError::AlreadySettled);
+        require!(stake > 0, SettlementError::InvalidStake);
+        require!(odds_bps >= 10_000, SettlementError::InvalidOdds);
+        require!(txline_proof_hash != [0; 32], SettlementError::InvalidProof);
 
         // Production implementation:
         // 1. CPI into TxLINE validate_stat with txline_oracle, txline_program, and proof accounts.
@@ -79,4 +82,10 @@ pub enum SettlementStatus {
 pub enum SettlementError {
     #[msg("This market has already been settled.")]
     AlreadySettled,
+    #[msg("Stake must be greater than zero.")]
+    InvalidStake,
+    #[msg("Odds must be at least 1.0 in basis points.")]
+    InvalidOdds,
+    #[msg("Submitted TxLINE proof hash is invalid.")]
+    InvalidProof,
 }

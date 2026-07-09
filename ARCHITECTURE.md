@@ -1,6 +1,6 @@
 # OmniPredict Architecture
 
-OmniPredict is designed as a production-quality MVP for the TxODDS World Cup hackathon. The current build includes Milestone 1 foundation work, Milestone 2 analytics depth, Milestone 3 AI intelligence, Milestone 4 TxLINE adapter integration, Milestone 5 settlement simulation, Milestone 6 submission readiness, and Milestone 7 Anchor scaffold work.
+OmniPredict is designed as a production-quality MVP for the TxODDS World Cup hackathon. The current build includes Milestone 1 foundation work, Milestone 2 analytics depth, Milestone 3 AI intelligence, Milestone 4 TxLINE adapter integration, Milestone 5 settlement simulation, Milestone 6 submission readiness, Milestone 7 Anchor scaffold work, and Milestone 8 Anchor toolchain readiness.
 
 ## Product Positioning
 
@@ -142,8 +142,9 @@ Recommended TypeScript settings:
 5. Settlement: proof request payloads, deterministic devnet-ready receipts, payout math, API route, and Anchor CPI documentation.
 6. Submission Readiness: demo runbook, deployment guide, health endpoint, in-app API docs, and production verification checks.
 7. Anchor Scaffold: workspace layout, settlement program source, TxLINE CPI account shape, receipt event, and contract test skeleton.
-8. Anchor Toolchain: compile the devnet program and add tests for valid, invalid, duplicate, and losing settlements.
-9. Live Hardening: validate official TxLINE payloads, deploy, and record the final demo.
+8. Anchor Toolchain: Codespaces bootstrap, contract build/test scripts, expanded validation tests, and devnet deployment checklist.
+9. Devnet Deployment: deploy the program, capture real transaction signatures, and connect `/settlement`.
+10. Live Hardening: validate official TxLINE payloads, deploy, and record the final demo.
 
 ## Route Structure
 

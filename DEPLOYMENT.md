@@ -61,3 +61,4 @@ Open these routes in a browser:
 - Live TxLINE mode is enabled only when `TXLINE_LIVE=true` and `TXLINE_API_BASE` are present.
 - AI calls remain server-side through `/api/insights`.
 - Settlement is simulated until the Anchor workspace is compiled and deployed to devnet.
+- Contract build/test commands live behind `npm run contracts:build` and `npm run contracts:test`; they require Anchor and Solana CLI.

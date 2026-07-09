@@ -42,11 +42,33 @@ anchor build
 anchor test
 ```
 
+From the repo root, the same flow is:
+
+```bash
+npm run contracts:install
+npm run contracts:doctor
+npm run contracts:build
+npm run contracts:test
+```
+
 The main Next.js app does not require Anchor dependencies to build or run.
+
+If pnpm reports ignored native build scripts, run `pnpm approve-builds` in an interactive terminal and approve only the packages you trust.
+
+## Devnet Readiness
+
+Before deploying for real:
+
+1. Generate a deploy keypair and fund it on devnet.
+2. Run `anchor keys sync` after replacing the placeholder program id.
+3. Run `anchor build` and inspect the generated IDL.
+4. Run `anchor test` against local validator.
+5. Run `anchor deploy --provider.cluster devnet`.
+6. Copy the deployed program id into `SETTLEMENT_PROGRAM_ID`.
+7. Replace the simulated `/settlement` signature with the real devnet transaction signature.
 
 Recommended next steps:
 
 - Replace the placeholder verifier with a real TxLINE `validate_stat` CPI.
-- Deploy the program id in `Anchor.toml` to devnet.
-- Add program tests for winning, losing, duplicate settlement, and invalid proof cases.
+- Add program tests for winning, losing, and mismatched outcome cases once TxLINE proof fixtures are available.
 - Replace the deterministic simulated signature with the real devnet transaction signature in `/settlement`.

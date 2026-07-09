@@ -11,7 +11,7 @@
       "onAutoForward": "openPreview"
     }
   },
-  "postCreateCommand": "npm install && npm run check",
+  "postCreateCommand": "npm install && npm run check && (bash .devcontainer/setup-anchor-toolchain.sh || true)",
   "postAttachCommand": {
     "server": "npm run dev:codespace"
   },

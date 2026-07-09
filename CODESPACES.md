@@ -20,11 +20,25 @@ npm run typecheck
 
 The `dev:codespace` script binds to `0.0.0.0` so the forwarded port is reachable from the browser preview.
 
+## Anchor Toolchain
+
+Milestone 8 includes an optional Anchor/Solana bootstrap script:
+
+```bash
+npm run contracts:install
+npm run contracts:doctor
+npm run contracts:build
+npm run contracts:test
+```
+
+The devcontainer runs the Anchor bootstrap after the app check, but treats toolchain installation as optional so the Next.js preview still opens if external installers are temporarily unavailable.
+
 ## What The Container Does
 
 - Uses the official Node 22 devcontainer image.
 - Installs GitHub CLI support through a devcontainer feature.
 - Installs npm dependencies and runs type/lint checks after creation.
+- Attempts to install Rust, Solana CLI, Anchor CLI, and contract dependencies.
 - Starts the Next.js dev server on attach.
 - Auto-forwards port `4173` and opens the preview.
 

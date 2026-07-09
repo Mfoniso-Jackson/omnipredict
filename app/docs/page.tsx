@@ -3,7 +3,7 @@ import { Card, CardTitle } from "@/components/ui/card";
 const sections = [
   {
     title: "Current milestone",
-    body: "Milestone 7 adds the Anchor workspace scaffold: program source, devnet program id wiring, TxLINE validate_stat CPI account shape, receipt event, and contract test skeleton."
+    body: "Milestone 8 adds Anchor/Solana toolchain bootstrap, contract build/test commands, expanded settlement validation tests, and a documented devnet deployment path."
   },
   {
     title: "Architecture",
@@ -31,7 +31,7 @@ const sections = [
   },
   {
     title: "Next milestone",
-    body: "Next technical step is installing Anchor/Solana in CI or Codespaces, compiling the program, deploying to devnet, and replacing simulated signatures with real transactions."
+    body: "Next technical step is running the toolchain in a full Anchor environment, deploying to devnet, wiring real validate_stat CPI fixtures, and replacing simulated signatures."
   }
 ];
 

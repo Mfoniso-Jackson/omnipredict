@@ -9,11 +9,11 @@ export async function GET() {
   return NextResponse.json({
     ok: true,
     app: "OmniPredict",
-    milestone: 7,
+    milestone: 8,
     checks: {
       txline: status.mode,
       ai: process.env.OPENAI_API_KEY ? "openai-ready" : "deterministic-fallback",
-      settlement: "anchor-workspace-scaffold",
+      settlement: "anchor-toolchain-ready",
       matches: matches.length
     },
     deployment: {

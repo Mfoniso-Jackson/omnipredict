@@ -23,6 +23,18 @@
       "type": "shell",
       "command": "npm run typecheck",
       "problemMatcher": []
+    },
+    {
+      "label": "OmniPredict: Contracts Build",
+      "type": "shell",
+      "command": "npm run contracts:build",
+      "problemMatcher": []
+    },
+    {
+      "label": "OmniPredict: Contracts Test",
+      "type": "shell",
+      "command": "npm run contracts:test",
+      "problemMatcher": []
     }
   ]
 }
