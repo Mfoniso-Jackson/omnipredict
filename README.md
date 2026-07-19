@@ -2,6 +2,8 @@
 
 OmniPredict is a TxLINE World Cup hackathon demo: Bloomberg-style market intelligence for prediction markets with implied probabilities, AI-style explanations, EV signals, Kelly sizing, portfolio simulation, and a Solana settlement receipt flow.
 
+Production domain: `https://omnipredict.network`
+
 ## Hackathon Context
 
 Built for the TxODDS World Cup TxLINE Prediction Markets and Settlement track on Superteam Earn.
@@ -81,6 +83,7 @@ cp .env.example .env
 Primary switches:
 
 - `MOCK_MODE=true`
+- `NEXT_PUBLIC_APP_URL=https://omnipredict.network`
 - `TXLINE_LIVE=false`
 - `TXLINE_API_BASE`
 - `TXLINE_SSE_URL`
@@ -112,12 +115,20 @@ The live adapter in `lib/txline/liveClient.ts` normalizes REST payloads into Omn
 
 The mock data mirrors the requested hackathon primitives: World Cup scores, match events, consensus odds, odds movement, red cards, settlement outcomes, and Merkle proof placeholders.
 
-Inspection endpoints:
+Local inspection endpoints:
 
 ```bash
 curl http://127.0.0.1:4173/api/health
 curl http://127.0.0.1:4173/api/txline/status
 curl -N http://127.0.0.1:4173/api/txline/stream
+```
+
+Production inspection endpoints:
+
+```bash
+curl https://omnipredict.network/api/health
+curl https://omnipredict.network/api/txline/status
+curl https://omnipredict.network/api/settlement
 ```
 
 ## AI Intelligence Layer

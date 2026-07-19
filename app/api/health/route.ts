@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { appUrl } from "@/lib/config";
 import { txlineClient } from "@/lib/txline/client";
 
 export const dynamic = "force-dynamic";
@@ -17,6 +18,8 @@ export async function GET() {
       matches: matches.length
     },
     deployment: {
+      appUrl,
+      domain: "omnipredict.network",
       node: ">=18",
       port: 4173,
       vercelReady: true

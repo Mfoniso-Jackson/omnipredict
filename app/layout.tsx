@@ -1,10 +1,28 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { appUrl } from "@/lib/config";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(appUrl),
+  applicationName: "OmniPredict",
   title: "OmniPredict | World Cup Market Intelligence",
-  description: "AI-powered prediction market intelligence for the TxODDS World Cup hackathon."
+  description: "AI-powered prediction market intelligence for the TxODDS World Cup hackathon.",
+  alternates: {
+    canonical: "/"
+  },
+  openGraph: {
+    title: "OmniPredict | World Cup Market Intelligence",
+    description: "AI-powered prediction market intelligence for TxLINE World Cup prediction markets.",
+    url: appUrl,
+    siteName: "OmniPredict",
+    type: "website"
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "OmniPredict | World Cup Market Intelligence",
+    description: "AI-powered prediction market intelligence for TxLINE World Cup prediction markets."
+  }
 };
 
 const navItems = [

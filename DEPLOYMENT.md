@@ -2,6 +2,8 @@
 
 OmniPredict is ready for Vercel, Codespaces, or any Node 18+ host that can run Next.js.
 
+Production domain: `https://omnipredict.network`
+
 ## Vercel
 
 Recommended settings:
@@ -19,6 +21,7 @@ The repo includes `vercel.json` with these defaults.
 Environment variables:
 
 ```bash
+NEXT_PUBLIC_APP_URL=https://omnipredict.network
 MOCK_MODE=true
 TXLINE_LIVE=false
 TXLINE_API_BASE=https://api.txline.example
@@ -34,14 +37,30 @@ SETTLEMENT_ESCROW_VAULT=OmniPredictEscrow11111111111111111111111111111
 
 For the judging demo, keep `TXLINE_LIVE=false` unless official TxLINE credentials and stable endpoints are available.
 
+## Domain Setup
+
+Add these domains to the Vercel project:
+
+```text
+omnipredict.network
+www.omnipredict.network
+```
+
+Recommended DNS records:
+
+```text
+A     @     76.76.21.21
+CNAME www   cname.vercel-dns.com
+```
+
+Wait for Vercel to issue HTTPS certificates before submitting the final URL.
+
 ## Post-Deploy Checks
 
-Replace `APP_URL` with the deployed URL:
-
 ```bash
-curl APP_URL/api/health
-curl APP_URL/api/txline/status
-curl APP_URL/api/settlement
+curl https://omnipredict.network/api/health
+curl https://omnipredict.network/api/txline/status
+curl https://omnipredict.network/api/settlement
 ```
 
 Open these routes in a browser:

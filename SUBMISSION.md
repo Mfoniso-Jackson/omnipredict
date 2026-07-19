@@ -10,6 +10,7 @@ These notes align OmniPredict with the TxODDS World Cup TxLINE Prediction Market
 - Winner announcement: July 29, 2026 at 15:00 UTC.
 - Required artifacts: demo video up to five minutes, public GitHub repo, working deployed app or functional API/devnet endpoint, brief technical documentation, and TxLINE API feedback.
 - Submission support files: `DEMO.md`, `DEPLOYMENT.md`, `ARCHITECTURE.md`, and this `SUBMISSION.md`.
+- Production URL: `https://omnipredict.network`.
 
 ## Core Interpretation
 
@@ -36,9 +37,9 @@ The app includes a `MockTxlineAdapter` that mirrors a live TxLINE SSE/World Cup 
 Readiness checks:
 
 ```bash
-curl /api/health
-curl /api/txline/status
-curl /api/settlement
+curl https://omnipredict.network/api/health
+curl https://omnipredict.network/api/txline/status
+curl https://omnipredict.network/api/settlement
 ```
 
 ### User Experience and Use Case
